@@ -26,7 +26,7 @@
             </Label>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../img/background_icon.png" />
+                  <Image url="@img/background_icon.png" />
                </image>
             </ImageView>
          </children></VBox>
@@ -36,7 +36,7 @@
                <children>
                   <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../img/museum_icon.png" />
+                        <Image url="@img/museum_icon.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="94.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="206.0" text="Witamy ponownie">

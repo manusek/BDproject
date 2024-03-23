@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.CreateUser">
    <children>
       <VBox prefHeight="800.0" prefWidth="400.0">
@@ -21,7 +20,7 @@
                <children>
                   <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="14.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../img/add_user.png" />
+                        <Image url="@img/add_user.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="94.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="215.0" text="Stwórz nowe konto">
@@ -155,7 +154,7 @@
          <children>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../img/background_icon.png" />
+                  <Image url="@img/background_icon.png" />
                </image>
             </ImageView>
          </children>
