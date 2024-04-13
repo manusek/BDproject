@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.projektbd.MainView"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.MainView">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="285.0" style="-fx-background-color: #B0B0B0; -fx-background-radius: 25; -fx-border-color: black; -fx-border-radius: 25;">
+         <children>
+            <Label layoutX="13.0" layoutY="177.0" prefHeight="32.0" prefWidth="125.0" text="Użytkownik:" textAlignment="CENTER">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <FontAwesomeIconView glyphName="USER" layoutX="117.0" layoutY="159.0" size="60" text="" />
+            <HBox alignment="CENTER" layoutX="8.0" layoutY="13.0" prefHeight="80.0" prefWidth="270.0" style="-fx-background-color: #334712; -fx-border-radius: 25; -fx-background-radius: 25;">
+               <children>
+                  <Label text="Centrum zarządzania">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label layoutX="13.0" layoutY="209.0" prefHeight="32.0" prefWidth="125.0" text="ID:" textAlignment="CENTER">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="Username" layoutX="138.0" layoutY="180.0" prefHeight="27.0" prefWidth="125.0" text="Username" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="UserID" layoutX="138.0" layoutY="212.0" prefHeight="27.0" prefWidth="125.0" text="ID" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
+         <children>
+            <TextField fx:id="SearchBar" layoutX="454.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" promptText="szukaj">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </TextField>
+            <FontAwesomeIconView glyphName="SEARCH" layoutX="420.0" layoutY="49.0" size="30" />
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>

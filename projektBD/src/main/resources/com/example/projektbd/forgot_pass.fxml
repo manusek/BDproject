@@ -57,7 +57,7 @@
                         <Insets bottom="10.0" left="20.0" top="-20.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="260.0" promptText="email..." style="-fx-background-color: #e0e8d3; -fx-border-color: #334712;">
+                  <TextField fx:id="ForgotEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="260.0" promptText="email..." style="-fx-background-color: #e0e8d3; -fx-border-color: #334712;">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </VBox.margin>
@@ -69,7 +69,7 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="300.0">
                <children>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="219.0" style="-fx-background-color: #93b066;" text="Przypomnij" textAlignment="CENTER">
+                  <Button fx:id="RemindButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="219.0" style="-fx-background-color: #93b066;" text="Przypomnij" textAlignment="CENTER">
                      <font>
                         <Font name="Century" size="25.0" />
                      </font>
