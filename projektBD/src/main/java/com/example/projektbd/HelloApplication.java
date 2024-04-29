@@ -54,7 +54,7 @@ public class HelloApplication extends Application {
     @FXML
     public void loginUser() throws SQLException {
 
-        connection = ConnectDB.getConnection();
+        //connection = ConnectDB.getConnection();
 
         String username = Login.getText();
         String password = Pass.getText();
