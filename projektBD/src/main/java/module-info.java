@@ -6,6 +6,8 @@ module com.example.projektbd {
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.tilesfx;
+    requires jakarta.persistence;
+    requires org.hibernate.orm.core;
 
     opens com.example.projektbd to javafx.fxml;
     exports com.example.projektbd;

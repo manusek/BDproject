@@ -120,7 +120,7 @@
             </VBox>
             <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="400.0">
                <children>
-                  <Button fx:id="LoginButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="219.0" style="-fx-background-color: #93b066;" text="Zaloguj" textAlignment="CENTER">
+                  <Button fx:id="LoginButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#loginUser" prefHeight="50.0" prefWidth="219.0" style="-fx-background-color: #93b066;" text="Zaloguj" textAlignment="CENTER">
                      <font>
                         <Font name="Century" size="25.0" />
                      </font>
