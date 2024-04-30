@@ -18,31 +18,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Login{
-    @FXML
-    private Button CreateButton;
-
-    @FXML
-    private Label ForgotPass;
 
     @FXML
     private TextField Login;
-
-    @FXML
-    private Button LoginButton;
-
     @FXML
     private TextField Pass;
-
     private Connection connection;
 
-
-    // Metoda do logowania
     public void loginUser() {
+        connection = ConnectDB.getConnection();
+
         String username = Login.getText();
         String password = Pass.getText();
 
         try {
-            // Zapytanie SQL do sprawdzenia danych logowania
             String sql = "SELECT * FROM users WHERE user_login = ? AND user_pass = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
@@ -50,23 +39,21 @@ public class Login{
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                // Użytkownik znaleziony, poprawne logowanie
                 Parent parent = FXMLLoader.load(getClass().getResource("main_view.fxml"));
                 Scene scene = new Scene(parent);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initStyle(StageStyle.UTILITY);
                 stage.show();
-            } else {
-                // Brak użytkownika lub niepoprawne dane logowania
+            }
+            else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Login Failed");
+                alert.setTitle("Bład logowanie");
                 alert.setHeaderText(null);
-                alert.setContentText("Incorrect username or password");
+                alert.setContentText("Niepoprawne dane");
                 alert.showAndWait();
             }
 
-            // Zamykanie połączenia z bazą danych
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
@@ -76,4 +63,21 @@ public class Login{
         }
     }
 
+    public void forgotPass() throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("forgot_pass.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UTILITY);
+        stage.show();
+    }
+
+    public void createUser() throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("create_user.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UTILITY);
+        stage.show();
+    }
 }

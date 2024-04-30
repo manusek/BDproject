@@ -69,7 +69,7 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="300.0">
                <children>
-                  <Button fx:id="RemindButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="219.0" style="-fx-background-color: #93b066;" text="Przypomnij" textAlignment="CENTER">
+                  <Button fx:id="RemindButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#remindPass" prefHeight="50.0" prefWidth="219.0" style="-fx-background-color: #93b066;" text="Przypomnij" textAlignment="CENTER">
                      <font>
                         <Font name="Century" size="25.0" />
                      </font>

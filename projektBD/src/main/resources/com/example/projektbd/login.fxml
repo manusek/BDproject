@@ -108,7 +108,7 @@
                         <Font name="Century" size="17.0" />
                      </font>
                   </TextField>
-                  <Label fx:id="ForgotPass" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="180.0" text="Zapomniałeś hasła?" textAlignment="CENTER">
+                  <Label fx:id="ForgotPass" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#forgotPass" prefHeight="25.0" prefWidth="180.0" text="Zapomniałeś hasła?" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets left="200.0" right="20.0" />
                      </VBox.margin>
@@ -140,7 +140,7 @@
                         <Insets bottom="10.0" left="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="CreateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #93b066;" text="Stwórz" textAlignment="CENTER">
+                  <Button fx:id="CreateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#createUser" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #93b066;" text="Stwórz" textAlignment="CENTER">
                      <font>
                         <Font name="Century" size="25.0" />
                      </font>
