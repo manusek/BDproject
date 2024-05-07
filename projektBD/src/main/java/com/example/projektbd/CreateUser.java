@@ -46,6 +46,8 @@ public class CreateUser {
             statement.setString(3, newPass);
             statement.setString(4, "user");
 
+            statement.execute();
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Gratulacje");
             alert.setHeaderText(null);
