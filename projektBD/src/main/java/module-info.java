@@ -8,6 +8,7 @@ module com.example.projektbd {
     requires eu.hansolo.tilesfx;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires AnimateFX;
 
     opens com.example.projektbd to javafx.fxml;
     exports com.example.projektbd;

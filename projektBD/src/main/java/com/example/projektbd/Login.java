@@ -25,6 +25,7 @@ public class Login{
     private TextField Pass;
     private Connection connection;
 
+
     public void loginUser() {
         connection = ConnectDB.getConnection();
 
@@ -42,14 +43,20 @@ public class Login{
                 Stage loginStage = (Stage) Login.getScene().getWindow();
                 loginStage.close();
 
-                Parent parent = FXMLLoader.load(getClass().getResource("main_view.fxml"));
+                int userID = resultSet.getInt("user_id");
+                User user = new User(resultSet.getString("user_login"), userID);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"));
+                Parent parent = loader.load();
+                MainView controller = loader.getController();
+                controller.setCurrentUser(user);
+
                 Scene scene = new Scene(parent);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initStyle(StageStyle.UTILITY);
                 stage.show();
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd logowania");
                 alert.setHeaderText(null);
@@ -59,10 +66,8 @@ public class Login{
 
             resultSet.close();
             statement.close();
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
