@@ -39,6 +39,9 @@ public class Login{
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
+                Stage loginStage = (Stage) Login.getScene().getWindow();
+                loginStage.close();
+
                 Parent parent = FXMLLoader.load(getClass().getResource("main_view.fxml"));
                 Scene scene = new Scene(parent);
                 Stage stage = new Stage();
@@ -48,7 +51,7 @@ public class Login{
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Bład logowanie");
+                alert.setTitle("Błąd logowania");
                 alert.setHeaderText(null);
                 alert.setContentText("Niepoprawne dane");
                 alert.showAndWait();
@@ -62,6 +65,7 @@ public class Login{
             throw new RuntimeException(e);
         }
     }
+
 
     public void forgotPass() throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("forgot_pass.fxml"));

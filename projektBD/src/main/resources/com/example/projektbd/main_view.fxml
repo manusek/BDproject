@@ -60,6 +60,11 @@
                   <Image url="@img/user.png" />
                </image>
             </ImageView>
+            <Label fx:id="LogOut" alignment="CENTER" layoutX="57.0" layoutY="552.0" onMouseClicked="#logOut" prefHeight="27.0" prefWidth="172.0" style="-fx-background-color: red; -fx-border-radius: 25; -fx-background-radius: 25;" text="Wyloguj...">
+               <font>
+                  <Font name="Ebrima Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
