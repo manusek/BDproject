@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="tankInfo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="290.0" style="-fx-background-color: #E6EDDB; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.TankView">
+   <children>
+      <ImageView fx:id="tankImg" fitHeight="120.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="tankName" layoutX="174.0" layoutY="14.0" prefHeight="19.0" prefWidth="125.0" text="Nazwa czolgu" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="Ebrima Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="tankNation" layoutX="170.0" layoutY="35.0" prefHeight="17.0" prefWidth="125.0" text="Narodowosc" AnchorPane.rightAnchor="5.0">
+         <font>
+            <Font name="Ebrima" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="moreInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="136.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#more" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #93b066;" text="Wiecej info" textAlignment="CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font name="Century" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteTank" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="154.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: red;" text="Usuń" textAlignment="CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font name="Century" size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

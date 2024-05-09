@@ -93,13 +93,6 @@ public class CreateUser {
             }
 
         }
-        else {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Błąd");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Hasła się nie zgadzają");
-//            alert.showAndWait();
-        }
     }
 
     @FXML

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.MainView">
    <children>
-      <AnchorPane prefHeight="600.0" prefWidth="285.0" style="-fx-background-color: #B0B0B0; -fx-background-radius: 25; -fx-border-color: black; -fx-border-radius: 25;">
+      <AnchorPane prefHeight="600.0" prefWidth="285.0" style="-fx-background-color: #E6EDDB; -fx-background-radius: 25; -fx-border-color: black; -fx-border-radius: 25;">
          <children>
             <Label layoutX="13.0" layoutY="177.0" prefHeight="32.0" prefWidth="125.0" text="Użytkownik:" textAlignment="CENTER">
                <font>
@@ -27,7 +28,7 @@
             </Label>
             <HBox alignment="CENTER" layoutX="8.0" layoutY="13.0" prefHeight="80.0" prefWidth="270.0" style="-fx-background-color: #334712; -fx-border-radius: 25; -fx-background-radius: 25;">
                <children>
-                  <Label text="Centrum zarządzania">
+                  <Label text="Centrum zarządzania" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
@@ -68,26 +69,6 @@
                   <Font name="Ebrima Bold" size="18.0" />
                </font>
             </Button>
-            <Accordion layoutX="37.0" layoutY="263.0" />
-            <Accordion layoutX="42.0" layoutY="281.0">
-              <panes>
-                <TitledPane text="untitled 1">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </TitledPane>
-                <TitledPane text="untitled 2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </TitledPane>
-                <TitledPane text="untitled 3">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </TitledPane>
-              </panes>
-            </Accordion>
          </children>
       </AnchorPane>
       <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
@@ -107,5 +88,14 @@
             </ImageView>
          </children>
       </Pane>
+      <ScrollPane hbarPolicy="NEVER" layoutX="333.0" layoutY="107.0" prefHeight="460.0" prefWidth="620.0" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane fx:id="tanksGrid" prefHeight="10.0" prefWidth="0.0">
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
