@@ -9,13 +9,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="tankInfoImg" fitHeight="300.0" fitWidth="380.0" layoutX="220.0" pickOnBounds="true" preserveRatio="true" />
       <VBox prefHeight="400.0" prefWidth="220.0" style="-fx-background-color: #334712;">
          <children>
-            <Label prefHeight="30.0" prefWidth="216.0" text="NAME" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="tankInfoName" prefHeight="30.0" prefWidth="216.0" text="NAME" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="20.0" />
                </font>
@@ -23,7 +22,7 @@
                   <Insets left="2.0" right="2.0" top="4.0" />
                </VBox.margin>
             </Label>
-            <Label prefWidth="216.0" text="NATION_ID" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="tankInfoNationId" prefWidth="216.0" text="NATION_ID" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="20.0" />
                </font>
@@ -31,7 +30,7 @@
                   <Insets left="2.0" right="2.0" top="4.0" />
                </VBox.margin>
             </Label>
-            <Label prefWidth="216.0" text="TYPE" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="tankInfoType" prefWidth="216.0" text="TYPE" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="20.0" />
                </font>
@@ -39,7 +38,7 @@
                   <Insets left="2.0" right="2.0" top="4.0" />
                </VBox.margin>
             </Label>
-            <Label prefHeight="100.0" prefWidth="216.0" text="DESCRIPTION" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="tankInfoDesc" prefHeight="100.0" prefWidth="216.0" text="DESCRIPTION" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="20.0" />
                </font>
@@ -47,7 +46,7 @@
                   <Insets left="2.0" right="2.0" top="4.0" />
                </VBox.margin>
             </Label>
-            <Label prefWidth="216.0" text="AMOUNT" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="tankInfoAmount" prefWidth="216.0" text="AMOUNT" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="20.0" />
                </font>
@@ -55,7 +54,7 @@
                   <Insets left="2.0" right="2.0" top="4.0" />
                </VBox.margin>
             </Label>
-            <Label prefWidth="216.0" text="DATA" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="tankInfoDate" prefWidth="216.0" text="DATA" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="20.0" />
                </font>

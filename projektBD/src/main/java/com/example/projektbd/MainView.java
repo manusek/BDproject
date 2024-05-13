@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class MainView {
@@ -63,28 +67,40 @@ public class MainView {
     @FXML
     private GridPane tanksGrid;
 
-    public void initialize() {
 
+    public void initialize() {
         int column = 0;
         int row = 1;
         try {
-            for (int i = 0; i < 10; i++) {
+            // Połączenie z bazą danych
+            Connection connection = ConnectDB.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM tanks");
+
+            while (resultSet.next()) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("tank_view.fxml"));
-
                 AnchorPane tankItem = fxmlLoader.load();
 
+                TankView tankViewController = fxmlLoader.getController(); // Pobranie kontrolera TankView
+                tankViewController.setTankId(resultSet.getInt("tank_id")); // Ustawienie identyfikatora czołgu
+
+                // Dodanie komponentu do GridPane
                 if (column == 2) {
                     column = 0;
                     ++row;
                 }
-
                 tanksGrid.add(tankItem, column++, row);
                 GridPane.setMargin(tankItem, new Insets(5));
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            // Zamykanie połączenia z bazą danych
+            resultSet.close();
+            statement.close();
+            connection.close();
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
     }
-
 }
