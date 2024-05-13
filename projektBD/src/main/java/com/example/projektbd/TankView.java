@@ -14,11 +14,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TankView {
+
     @FXML
     private Label tankName;
+
     @FXML
     private Label tankNation;
-    private int tankId; // Identyfikator czołgu
+    private int tankId;
 
     public void setTankId(int tankId) {
         this.tankId = tankId;
@@ -27,9 +29,8 @@ public class TankView {
 
     private void loadDataFromDatabase() {
         try {
-            // Połączenie z bazą danych
             Connection connection = ConnectDB.getConnection();
-            // Zapytanie SQL pobierające dane o czołgu na podstawie jego identyfikatora
+
             String query = "SELECT name, nation_name " +
                     "FROM tanks " +
                     "JOIN nationality ON tanks.nation_id = nationality.nation_id " +
@@ -39,17 +40,14 @@ public class TankView {
             preparedStatement.setInt(1, tankId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Jeśli znajdziemy dane o czołgu, ustawiamy je w odpowiednich komponentach
             if (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String nationName = resultSet.getString("nation_name");
 
-                // Ustawienie danych w komponentach
                 tankName.setText(name);
                 tankNation.setText(nationName);
             }
 
-            // Zamknięcie połączenia z bazą danych
             resultSet.close();
             preparedStatement.close();
             connection.close();
@@ -60,12 +58,20 @@ public class TankView {
     }
 
 
-    public void more() throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("tank_info.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.UTILITY);
-        stage.show();
+    @FXML
+    private void more() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("tank_info.fxml"));
+            Parent parent = loader.load();
+            Tankinfo tankinfoController = loader.getController();
+            tankinfoController.setTankId(tankId); // Ustawienie identyfikatora czołgu
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

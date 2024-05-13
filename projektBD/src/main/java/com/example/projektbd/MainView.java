@@ -23,20 +23,15 @@ import java.sql.Statement;
 
 public class MainView {
 
-    // Metoda do wylogowywania użytkownika
     public void logOut(ActionEvent event) {
-        // Czyszczenie sesji
         currentUser = null;
 
-        // Zamknięcie aktualnego okna
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
 
-        // Otwarcie okna logowania
         openLoginWindow();
     }
 
-    // Metoda do otwierania okna logowania
     private void openLoginWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
@@ -46,14 +41,16 @@ public class MainView {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace(); // Obsługa błędu otwierania okna logowania
+            e.printStackTrace();
         }
     }
 
     @FXML
     private Label Username;
+
     @FXML
     private Label UserID;
+
     private User currentUser;
 
     public void setCurrentUser(User user) {
@@ -68,11 +65,16 @@ public class MainView {
     private GridPane tanksGrid;
 
 
+    public void refreshTanksGrid() {
+        tanksGrid.getChildren().clear(); // Wyczyść istniejące elementy w GridPane
+        initialize(); // Ponownie załaduj czołgi do GridPane
+    }
+
+
     public void initialize() {
         int column = 0;
         int row = 1;
         try {
-            // Połączenie z bazą danych
             Connection connection = ConnectDB.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM tanks");
@@ -82,10 +84,9 @@ public class MainView {
                 fxmlLoader.setLocation(getClass().getResource("tank_view.fxml"));
                 AnchorPane tankItem = fxmlLoader.load();
 
-                TankView tankViewController = fxmlLoader.getController(); // Pobranie kontrolera TankView
-                tankViewController.setTankId(resultSet.getInt("tank_id")); // Ustawienie identyfikatora czołgu
+                TankView tankViewController = fxmlLoader.getController();
+                tankViewController.setTankId(resultSet.getInt("tank_id"));
 
-                // Dodanie komponentu do GridPane
                 if (column == 2) {
                     column = 0;
                     ++row;
@@ -94,7 +95,6 @@ public class MainView {
                 GridPane.setMargin(tankItem, new Insets(5));
             }
 
-            // Zamykanie połączenia z bazą danych
             resultSet.close();
             statement.close();
             connection.close();

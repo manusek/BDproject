@@ -80,18 +80,6 @@ public class CreateUser {
             Stage stage = (Stage) NewEmail.getScene().getWindow();
             stage.close();
 
-            // Open login view
-            try {
-                Parent parent = FXMLLoader.load(getClass().getResource("login.fxml"));
-                Scene scene = new Scene(parent);
-                Stage loginStage = new Stage();
-                loginStage.setScene(scene);
-                loginStage.initStyle(StageStyle.UTILITY);
-                loginStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
     }
 
