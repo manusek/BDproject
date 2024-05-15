@@ -44,12 +44,19 @@ public class Tankinfo {
     @FXML
     private Label tankInfoAmmoDesc;
     private int tankId;
+    private User currentUser;
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private Button editButton;
 
 
     public void setTankId(int tankId) {
         this.tankId = tankId;
         loadDataFromDatabase();
     }
+
 
     private void loadDataFromDatabase() {
         try {
@@ -93,7 +100,18 @@ public class Tankinfo {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
+
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (currentUser != null && currentUser.getUserID() != 2) {
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
+    }
+
 
     @FXML
     private void deleteTank() {
@@ -120,15 +138,11 @@ public class Tankinfo {
             Stage stage = (Stage) tankInfoName.getScene().getWindow();
             stage.close();
 
-            // Odśwież GridPane
-            MainView mainViewController = new MainView();
-            mainViewController.refreshTanksGrid();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
 
 }

@@ -12,8 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,6 +20,20 @@ import java.sql.Statement;
 
 
 public class MainView {
+    @FXML
+    private GridPane tanksGrid;
+
+    @FXML
+    private Button AddTank;
+
+    @FXML
+    private Label Username;
+
+    @FXML
+    private Label UserID;
+
+    private User currentUser;
+
 
     public void logOut(ActionEvent event) {
         currentUser = null;
@@ -45,29 +57,17 @@ public class MainView {
         }
     }
 
-    @FXML
-    private Label Username;
-
-    @FXML
-    private Label UserID;
-
-    private User currentUser;
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
         if (currentUser != null) {
             Username.setText(currentUser.getUsername());
             UserID.setText(String.valueOf(currentUser.getUserID()));
+
+            if (currentUser != null && currentUser.getUserID() != 2) {
+                AddTank.setVisible(false);
+            }
         }
-    }
-
-    @FXML
-    private GridPane tanksGrid;
-
-
-    public void refreshTanksGrid() {
-        tanksGrid.getChildren().clear(); // Wyczyść istniejące elementy w GridPane
-        initialize(); // Ponownie załaduj czołgi do GridPane
     }
 
 
@@ -99,7 +99,23 @@ public class MainView {
             statement.close();
             connection.close();
 
+
         } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public void addTank() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("tank_add.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

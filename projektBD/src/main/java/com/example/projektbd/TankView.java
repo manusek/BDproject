@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,10 +32,7 @@ public class TankView {
         try {
             Connection connection = ConnectDB.getConnection();
 
-            String query = "SELECT name, nation_name " +
-                    "FROM tanks " +
-                    "JOIN nationality ON tanks.nation_id = nationality.nation_id " +
-                    "WHERE tank_id = ?";
+            String query = "SELECT name, nation_name " + "FROM tanks " + "JOIN nationality ON tanks.nation_id = nationality.nation_id " + "WHERE tank_id = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, tankId);
@@ -64,7 +62,7 @@ public class TankView {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("tank_info.fxml"));
             Parent parent = loader.load();
             Tankinfo tankinfoController = loader.getController();
-            tankinfoController.setTankId(tankId); // Ustawienie identyfikatora czołgu
+            tankinfoController.setTankId(tankId);
             Stage stage = new Stage();
             stage.setScene(new Scene(parent));
             stage.initStyle(StageStyle.UTILITY);

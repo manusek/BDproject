@@ -64,9 +64,14 @@
                   <Image url="@img/user.png" />
                </image>
             </ImageView>
-            <Button fx:id="LogOut" alignment="CENTER" layoutX="57.0" layoutY="552.0" onAction="#logOut" prefHeight="27.0" prefWidth="172.0" style="-fx-background-color: red; -fx-border-radius: 25; -fx-background-radius: 25;" text="Wyloguj...">
+            <Button fx:id="LogOut" alignment="CENTER" layoutX="57.0" layoutY="552.0" onAction="#logOut" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: E72929; -fx-border-radius: 25; -fx-background-radius: 25;" text="Wyloguj..." AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
                 <font>
                   <Font name="Ebrima Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="AddTank" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="503.0" mnemonicParsing="false" onMouseClicked="#addTank" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Dodaj" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
                </font>
             </Button>
          </children>

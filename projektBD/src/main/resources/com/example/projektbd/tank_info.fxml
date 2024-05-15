@@ -14,137 +14,225 @@
       <ImageView fx:id="tankInfoImg" fitHeight="460.0" fitWidth="440.0" layoutX="260.0" pickOnBounds="true" preserveRatio="true" />
       <VBox prefHeight="650.0" prefWidth="260.0" style="-fx-background-color: #334712;">
          <children>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Nazwa:" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            <HBox prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: #707E59;">
+               <children>
+                  <VBox prefHeight="81.0" prefWidth="254.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Nazwa:">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoName" prefHeight="30.0" prefWidth="240.0" text="NAME" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="5.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoName" prefHeight="30.0" prefWidth="240.0" text="NAME" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="260.0">
+               <children>
+                  <VBox prefHeight="60.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Typ czolgu">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoType" prefHeight="30.0" prefWidth="240.0" text="TYPE" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Kraj  pochodzenia" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: #707E59;">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Kraj  pochodzenia">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoNation" prefHeight="30.0" prefWidth="240.0" text="NATION_ID" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="5.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoNation" prefHeight="30.0" prefWidth="240.0" text="NATION_ID" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="260.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Data">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoDate" prefHeight="30.0" prefWidth="240.0" text="DATA" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Typ czolgu" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: #707E59;">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Ilosc ">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoAmount" prefHeight="30.0" prefWidth="240.0" text="AMOUNT" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="5.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoType" prefWidth="240.0" text="TYPE" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="150.0" prefWidth="260.0">
+               <children>
+                  <VBox prefHeight="49.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Opis">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoDesc" prefHeight="150.0" prefWidth="240.0" text="DESCRIPTION" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Ebrima" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Opis" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: #707E59;">
+               <children>
+                  <VBox prefHeight="62.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Amunicja">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoAmmo" prefHeight="30.0" prefWidth="240.0" text="AMMO" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="5.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoDesc" prefHeight="150.0" prefWidth="240.0" text="DESCRIPTION" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="Ebrima" size="15.0" />
-               </font>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="260.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="260.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="Opis amunicji">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="tankInfoAmmoDesc" prefHeight="30.0" prefWidth="240.0" text="AMMO_DESC" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Ebrima" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
                <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Ilosc " textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="5.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoAmount" prefWidth="240.0" text="AMOUNT" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
-               </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Data" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="5.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoDate" prefWidth="240.0" text="DATA" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
-               </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Amunicja" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="5.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoAmmo" prefWidth="240.0" text="AMMO" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
-               </VBox.margin>
-            </Label>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Opis amunicji" textFill="#838383">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="5.0" />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="tankInfoAmmoDesc" prefWidth="240.0" text="AMMO_DESC" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Ebrima" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="2.0" />
-               </VBox.margin>
-            </Label>
+            </HBox>
          </children>
       </VBox>
-      <HBox layoutX="290.0" layoutY="487.0" prefHeight="100.0" prefWidth="380.0">
+      <HBox layoutX="290.0" layoutY="503.0" prefHeight="100.0" prefWidth="380.0">
          <children>
             <Button fx:id="editButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #93b066;" text="Edytuj" textAlignment="CENTER">
                <font>
