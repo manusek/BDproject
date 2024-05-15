@@ -37,11 +37,21 @@ public class TankAdd {
 
     @FXML
     private TextField newTankType;
+
+    @FXML
+    private Button addBut;
+    @FXML
+    private Button editBut;
     private Connection connection;
 
+    // nie widac przycisku
+    public Button getAddBut() {
+        return addBut;
+    }
 
     @FXML
     public void initialize() throws SQLException {
+        editBut.setVisible(false);
         fetchNations();
     }
 
@@ -110,6 +120,7 @@ public class TankAdd {
 
     @FXML
     public void saveTank(ActionEvent event) throws SQLException {
+
         String name = newTankName.getText();
         String type = newTankType.getText();
         String desc = newTankDesc.getText();
@@ -186,7 +197,111 @@ public class TankAdd {
         statement2.setInt(1, ammoId);
         statement2.setInt(2, tankID);
         statement2.executeUpdate();
+    }
 
+    public void setTankDataForEdit(int tankId) {
+        addBut.setVisible(false);
+        editBut.setVisible(true);
+        try {
+            Connection connection = ConnectDB.getConnection();
 
+            String query = "SELECT t.name AS tank_name, a.ammo_id as a_id, type, t.description AS tank_desc, amount, data, nation_name, t.nation_id as n_id, a.name AS ammo_name, a.description AS ammo_desc " +
+                    "FROM tanks t  " +
+                    "JOIN nationality ON t.nation_id = nationality.nation_id " +
+                    "JOIN tank_ammunition on t.tank_id = tank_ammunition.tank_id " +
+                    "JOIN ammunition a on tank_ammunition.ammo_id = a.ammo_id " +
+                    "WHERE t.tank_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, tankId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                newTankName.setText(resultSet.getString("tank_name"));
+                newTankType.setText(resultSet.getString("type"));
+                newTankDesc.setText(resultSet.getString("tank_desc"));
+                newTankAmount.setText(String.valueOf(resultSet.getInt("amount")));
+                newTankDate.setValue(resultSet.getDate("data").toLocalDate());
+                // Ustawienie wybranej nacji w ChoiceBox
+                newTankNation.getSelectionModel().select(resultSet.getInt("n_id") + ": " + resultSet.getString("nation_name"));
+                newTankAmmo.getSelectionModel().select(resultSet.getInt("a_id") + ": " + resultSet.getString("ammo_name"));
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void editTank(ActionEvent event) {
+        try {
+            String name = newTankName.getText();
+            String type = newTankType.getText();
+            String desc = newTankDesc.getText();
+
+            String nationSelection = newTankNation.getValue();
+            String[] nationParts = nationSelection.split(":");
+            int nationId = Integer.parseInt(nationParts[0].trim());
+
+            int amount = Integer.parseInt(newTankAmount.getText());
+            String date = newTankDate.getValue().toString();
+
+            String ammoSelection = newTankAmmo.getValue();
+            String[] ammoParts = ammoSelection.split(":");
+            int ammoId = Integer.parseInt(ammoParts[0].trim());
+
+            updateTankInDatabase(name, type, desc, nationId, amount, date, ammoId);
+
+            editBut.setVisible(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId) throws SQLException {
+        connection = ConnectDB.getConnection();
+
+        String query = "UPDATE tanks SET nation_id=?, name=?, type=?, description=?, amount=?, data=? WHERE tank_id=?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(date, formatter);
+        Date sqlDate = Date.valueOf(localDate);
+
+        statement.setInt(1, nationId);
+        statement.setString(2, name);
+        statement.setString(3, type);
+        statement.setString(4, desc);
+        statement.setInt(5, amount);
+        statement.setDate(6, sqlDate);
+
+        // DOKONCZYC EDYCJE ZE CZOLG KTORY KLIKNIEMY
+        statement.setInt(7, 13); // zamiast 13 dac jego id
+
+        int rowsUpdated = statement.executeUpdate();
+        if (rowsUpdated > 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sukces");
+            alert.setHeaderText(null);
+            alert.setContentText("Dane czołgu zostały zaktualizowane w bazie danych.");
+
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Nie udało się zaktualizować danych czołgu w bazie danych.");
+
+            alert.showAndWait();
+        }
+
+        String updateAmmoQuery = "UPDATE tank_ammunition SET ammo_id=? WHERE tank_id=?";
+        PreparedStatement updateAmmoStatement = connection.prepareStatement(updateAmmoQuery);
+        updateAmmoStatement.setInt(1, ammoId);
+        updateAmmoStatement.setInt(2, 13);
+        updateAmmoStatement.executeUpdate();
     }
 }

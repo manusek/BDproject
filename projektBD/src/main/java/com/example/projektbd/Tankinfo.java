@@ -1,12 +1,16 @@
 package com.example.projektbd;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,8 +18,6 @@ import java.sql.SQLException;
 
 public class Tankinfo {
 
-    @FXML
-    private Button editTank;
 
     @FXML
     private Label tankInfoAmount;
@@ -50,6 +52,10 @@ public class Tankinfo {
 
     @FXML
     private Button editButton;
+    @FXML
+    private Label tankInfoProd;
+
+
 
 
     public void setTankId(int tankId) {
@@ -62,7 +68,7 @@ public class Tankinfo {
         try {
             Connection connection = ConnectDB.getConnection();
 
-            String query = "SELECT t.name AS tank_name, type, t.description AS tank_desc, amount, data, nation_name, a.name AS ammo_name, a.description AS ammo_desc " +
+            String query = "SELECT t.name AS tank_name, type, t.description AS tank_desc, prod_place, amount, data, nation_name, a.name AS ammo_name, a.description AS ammo_desc " +
                     "FROM tanks t  " +
                     "JOIN nationality ON t.nation_id = nationality.nation_id " +
                     "JOIN tank_ammunition on t.tank_id = tank_ammunition.tank_id " +
@@ -82,6 +88,7 @@ public class Tankinfo {
                 String date = resultSet.getString("data");
                 String ammoName = resultSet.getString("ammo_name");
                 String ammoDesc = resultSet.getString("ammo_desc");
+                String prod = resultSet.getString("prod_place");
 
                 tankInfoName.setText(name);
                 tankInfoNation.setText(nation);
@@ -91,6 +98,7 @@ public class Tankinfo {
                 tankInfoDate.setText(date);
                 tankInfoAmmo.setText(ammoName);
                 tankInfoAmmoDesc.setText(ammoDesc);
+                tankInfoProd.setText(prod);
             }
 
             resultSet.close();
@@ -104,13 +112,13 @@ public class Tankinfo {
     }
 
 
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        if (currentUser != null && currentUser.getUserID() != 2) {
-            editButton.setVisible(false);
-            deleteButton.setVisible(false);
-        }
-    }
+//    public void setCurrentUser(User user) {
+//        this.currentUser = user;
+//        if (currentUser != null && currentUser.getUserID() != 2) {
+//            editButton.setVisible(false);
+//            deleteButton.setVisible(false);
+//        }
+//    }
 
 
     @FXML
@@ -144,5 +152,20 @@ public class Tankinfo {
         }
     }
 
+    @FXML
+    private void editTank() throws IOException {
+        Stage stage = (Stage) tankInfoName.getScene().getWindow();
+        stage.close();
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("tank_add.fxml"));
+        Parent root = loader.load();
+        TankAdd controller = loader.getController();
+
+        // Pobranie danych dotyczących wybranego czołgu
+        controller.setTankDataForEdit(tankId);
+
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
 }

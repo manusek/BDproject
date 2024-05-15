@@ -28,27 +28,35 @@
                   <Image url="@img/tank.png" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" onAction="#saveTank" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #93b066;" text="Dodaj">
+            <Button fx:id="addBut" mnemonicParsing="false" onAction="#saveTank" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #93b066;" text="Dodaj">
                <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="100.0" />
+                  <Insets left="20.0" right="20.0" top="75.0" />
                </VBox.margin>
                <font>
                   <Font name="Century" size="25.0" />
                </font>
             </Button>
+            <Button fx:id="editBut" mnemonicParsing="false" onAction="#editTank" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #93b066;" text="Edytuj">
+               <font>
+                  <Font name="Century" size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="20.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
       <HBox layoutY="55.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #E6EDDB;">
          <children>
-            <Label prefWidth="70.0" text="Nazwa">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Nazwa">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="newTankName" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712;">
+            <TextField fx:id="newTankName" prefHeight="30.0" prefWidth="180.0" promptText="nazwa" style="-fx-border-color: #334712;">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -60,15 +68,15 @@
       </HBox>
       <HBox layoutY="109.0" prefHeight="40.0" prefWidth="300.0">
          <children>
-            <Label prefWidth="70.0" text="Typ">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Typ">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="newTankType" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712;">
+            <TextField fx:id="newTankType" prefHeight="30.0" prefWidth="180.0" promptText="typ" style="-fx-border-color: #334712;">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -80,12 +88,12 @@
       </HBox>
       <HBox layoutY="162.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #E6EDDB;">
          <children>
-            <Label prefWidth="70.0" text="Zdjecie">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Zdjecie">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
             <Button fx:id="btnUpload" mnemonicParsing="false" onAction="#img" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712; -fx-background-color: #334712;" text="Dodaj fote" textFill="WHITE">
@@ -100,15 +108,15 @@
       </HBox>
       <HBox layoutY="220.0" prefHeight="70.0" prefWidth="300.0">
          <children>
-            <Label prefHeight="50.0" prefWidth="70.0" text="Opis">
+            <Label prefHeight="60.0" prefWidth="70.0" text="Opis">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <TextArea fx:id="newTankDesc" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: #334712;" wrapText="true">
+            <TextArea fx:id="newTankDesc" prefHeight="60.0" prefWidth="180.0" promptText="opis" style="-fx-border-color: #334712;" wrapText="true">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -120,15 +128,15 @@
       </HBox>
       <HBox layoutY="315.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #E6EDDB;">
          <children>
-            <Label prefWidth="70.0" text="Ilosc">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Ilosc">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="newTankAmount" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712;">
+            <TextField fx:id="newTankAmount" prefHeight="30.0" prefWidth="180.0" promptText="ilosc" style="-fx-border-color: #334712;">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -140,15 +148,15 @@
       </HBox>
       <HBox layoutY="382.0" prefHeight="40.0" prefWidth="300.0">
          <children>
-            <Label prefWidth="70.0" text="Data">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Data">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <DatePicker fx:id="newTankDate" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712;">
+            <DatePicker fx:id="newTankDate" prefHeight="30.0" prefWidth="180.0" promptText="11-11-1999" style="-fx-border-color: #334712;">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -160,12 +168,12 @@
       </HBox>
       <HBox layoutY="442.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #E6EDDB;">
          <children>
-            <Label prefWidth="70.0" text="Nacja">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Nacja">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="newTankNation" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712;">
@@ -180,12 +188,12 @@
       </HBox>
       <HBox layoutY="500.0" prefHeight="40.0" prefWidth="300.0">
          <children>
-            <Label prefWidth="70.0" text="Amunicja">
+            <Label prefHeight="30.0" prefWidth="70.0" text="Amunicja">
                <font>
                   <Font name="Ebrima" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="7.0" />
+                  <Insets left="10.0" right="10.0" top="5.0" />
                </HBox.margin>
             </Label>
             <ChoiceBox fx:id="newTankAmmo" prefHeight="30.0" prefWidth="180.0" style="-fx-border-color: #334712;">
