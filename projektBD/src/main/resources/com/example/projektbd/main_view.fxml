@@ -69,7 +69,17 @@
                   <Font name="Ebrima Bold" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="AddTank" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="503.0" mnemonicParsing="false" onMouseClicked="#addTank" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Dodaj" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+            <Button fx:id="AddTank" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="503.0" mnemonicParsing="false" onMouseClicked="#addTank" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Dodaj czołg" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="AddNation" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#addNation" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Dodaj nowa nacje" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+               <font>
+                  <Font name="Ebrima" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="AddAmmo" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="371.0" mnemonicParsing="false" onMouseClicked="#addAmmo" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Dodaj nowa amunicje" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
                <font>
                   <Font name="Ebrima" size="18.0" />
                </font>

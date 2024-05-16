@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.AmmoAdd">
+   <children>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="240.0" style="-fx-background-color: #334712;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/cannon_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+      <VBox layoutX="240.0" prefHeight="400.0" prefWidth="360.0" style="-fx-background-color: #c1d2a7;">
+         <children>
+            <HBox prefHeight="80.0" prefWidth="360.0">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/ammi_icon.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label prefHeight="60.0" prefWidth="290.0" text="Dodaj nowy typ amunicji">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Ebrima Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="360.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="360.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="350.0" text="Nazwa amunicji">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="newAmmoName" prefHeight="30.0" prefWidth="350.0" promptText="podaj nazwe..." style="-fx-border-color: #334712;">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </padding>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="ammoNameError" prefHeight="20.0" prefWidth="350.0" textAlignment="CENTER" textFill="RED">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="135.0" prefWidth="360.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="360.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="350.0" text="Opis amunicji">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="newAmmoDesc" prefHeight="60.0" prefWidth="350.0" promptText="podaj krotki opis" style="-fx-border-color: #334712;" wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </padding>
+                        </TextArea>
+                        <Label fx:id="ammoDescError" prefHeight="20.0" prefWidth="350.0" textAlignment="CENTER" textFill="RED">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Button fx:id="ammoButton" mnemonicParsing="false" onMouseClicked="#addAmmo" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #334712;" text="Dodaj" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Century" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="110.0" right="110.0" top="5.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -27,6 +27,12 @@ public class MainView {
     private Button AddTank;
 
     @FXML
+    private Button AddNation;
+
+    @FXML
+    private Button AddAmmo;
+
+    @FXML
     private Label Username;
 
     @FXML
@@ -66,6 +72,8 @@ public class MainView {
 
             if (currentUser != null && currentUser.getUserID() != 2) {
                 AddTank.setVisible(false);
+                AddNation.setVisible(false);
+                AddAmmo.setVisible(false);
             }
         }
     }
@@ -120,5 +128,33 @@ public class MainView {
         }
     }
 
+
+    @FXML
+    public void addNation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("nation_add.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void  addAmmo(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ammo_add.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
