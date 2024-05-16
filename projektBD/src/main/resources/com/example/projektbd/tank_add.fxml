@@ -206,5 +206,12 @@
             <Insets left="10.0" right="10.0" />
          </padding>
       </HBox>
+      <Label fx:id="tankNameError" layoutX="120.0" layoutY="95.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="tankTypeError" layoutX="120.0" layoutY="149.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="tankDescError" layoutX="120.0" layoutY="290.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="tankAmmountError" layoutX="120.0" layoutY="355.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="tankDateError" layoutX="120.0" layoutY="422.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="tankNationalityError" layoutX="120.0" layoutY="482.0" prefHeight="17.0" prefWidth="150.0" />
+      <Label fx:id="tankAmmoError" layoutX="106.0" layoutY="538.0" prefHeight="17.0" prefWidth="180.0" />
    </children>
 </AnchorPane>

@@ -2,6 +2,7 @@ package com.example.projektbd;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,12 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class Tankinfo {
+public class Tankinfo implements Initializable {
 
 
     @FXML
@@ -112,13 +115,13 @@ public class Tankinfo {
     }
 
 
-//    public void setCurrentUser(User user) {
-//        this.currentUser = user;
-//        if (currentUser != null && currentUser.getUserID() != 2) {
-//            editButton.setVisible(false);
-//            deleteButton.setVisible(false);
-//        }
-//    }
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (currentUser != null && currentUser.getUserID() != 2) {
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
+    }
 
 
     @FXML
@@ -166,6 +169,15 @@ public class Tankinfo {
 
         stage.setScene(new Scene(root));
         stage.show();
+    }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Sprawdź czy użytkownik jest zalogowany i czy jego ID jest różne od 2
+        if (currentUser != null && currentUser.getUserID() != 2) {
+            // Jeśli tak, ukryj przyciski
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
     }
 }

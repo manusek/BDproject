@@ -1,22 +1,14 @@
 package com.example.projektbd;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static com.example.projektbd.ConnectDB.password;
 
 
 public class CreateUser {
@@ -60,7 +52,7 @@ public class CreateUser {
         isPassEquals();
         isEmailValid();
 
-        if (newPass.equals(newRePass) && !newPass.isEmpty() && !newLogin.isEmpty() && !newEmail.isEmpty()){
+        if (newPass.equals(newRePass) && !newPass.isEmpty() && !newLogin.isEmpty() && !newEmail.isEmpty() && isEmailValid()){
             String sql = "INSERT INTO users (user_login, user_email, user_pass, acc_type) VALUES (?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, newLogin);
@@ -142,7 +134,7 @@ public class CreateUser {
     }
 
     @FXML
-    private void isEmailValid() {
+    private boolean isEmailValid() {
         String email = NewEmail.getText();
         // Prosta walidacja adresu email za pomocą wyrażenia regularnego
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
@@ -155,6 +147,7 @@ public class CreateUser {
             NewEmail.setStyle(null);
             emailError.setText("");
         }
+        return false;
     }
 
 

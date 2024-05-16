@@ -34,7 +34,6 @@ public class TankAdd {
     private DatePicker newTankDate;
     @FXML
     private TextArea newTankDesc;
-
     @FXML
     private TextField newTankType;
 
@@ -42,7 +41,31 @@ public class TankAdd {
     private Button addBut;
     @FXML
     private Button editBut;
+
+    @FXML
+    private Label tankAmmoError;
+
+    @FXML
+    private Label tankAmmountError;
+
+    @FXML
+    private Label tankDateError;
+
+    @FXML
+    private Label tankDescError;
+
+    @FXML
+    private Label tankNameError;
+
+    @FXML
+    private Label tankNationalityError;
+
+    @FXML
+    private Label tankTypeError;
+
     private Connection connection;
+
+    private int currentTankId;
 
     // nie widac przycisku
     public Button getAddBut() {
@@ -124,20 +147,31 @@ public class TankAdd {
         String name = newTankName.getText();
         String type = newTankType.getText();
         String desc = newTankDesc.getText();
+        String amount = newTankAmount.getText();
 
         String nationSelection = newTankNation.getValue();
+        String ammoSelection = newTankAmmo.getValue();
+
+        isInputEmpty();
+
+        //TODO zrobic zeby typ i amount mogly zawierac tylko liczby a nie liczby i cyfry
+        //TODO ogarnac walidacje do daty i tych pol wyboru
+
+
+        String date = newTankDate.getValue().toString();
+
         String[] nationParts = nationSelection.split(":");
         int nationId = Integer.parseInt(nationParts[0].trim());
 
-        int amount = Integer.parseInt(newTankAmount.getText());
-        String date = newTankDate.getValue().toString();
-
-        String ammoSelection = newTankAmmo.getValue();
         String[] ammoParts = ammoSelection.split(":");
         int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-        // Wykonaj zapis do bazy danych
-        saveTankToDatabase(name, type, desc, nationId, amount, date, ammoId);
+
+        if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !isLetter(amount)) {
+            // Wykonaj zapis do bazy danych
+           // amount = String.valueOf(Integer.parseInt(amount));
+            saveTankToDatabase(name, type, desc, nationId, Integer.parseInt(amount), date, ammoId);
+        }
     }
 
     private void saveTankToDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId) throws SQLException {
@@ -200,6 +234,9 @@ public class TankAdd {
     }
 
     public void setTankDataForEdit(int tankId) {
+
+        this.currentTankId = tankId;
+
         addBut.setVisible(false);
         editBut.setVisible(true);
         try {
@@ -252,7 +289,7 @@ public class TankAdd {
             String[] ammoParts = ammoSelection.split(":");
             int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-            updateTankInDatabase(name, type, desc, nationId, amount, date, ammoId);
+            updateTankInDatabase(name, type, desc, nationId, amount, date, ammoId, currentTankId);
 
             editBut.setVisible(true);
         } catch (SQLException e) {
@@ -260,7 +297,7 @@ public class TankAdd {
         }
     }
 
-    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId) throws SQLException {
+    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int currentID) throws SQLException {
         connection = ConnectDB.getConnection();
 
         String query = "UPDATE tanks SET nation_id=?, name=?, type=?, description=?, amount=?, data=? WHERE tank_id=?";
@@ -278,8 +315,8 @@ public class TankAdd {
         statement.setInt(5, amount);
         statement.setDate(6, sqlDate);
 
-        // DOKONCZYC EDYCJE ZE CZOLG KTORY KLIKNIEMY
-        statement.setInt(7, 13); // zamiast 13 dac jego id
+        //TODO DOKONCZYC EDYCJE ZE CZOLG KTORY KLIKNIEMY
+        statement.setInt(7, currentID); // zamiast 13 dac jego id
 
         int rowsUpdated = statement.executeUpdate();
         if (rowsUpdated > 0) {
@@ -301,7 +338,100 @@ public class TankAdd {
         String updateAmmoQuery = "UPDATE tank_ammunition SET ammo_id=? WHERE tank_id=?";
         PreparedStatement updateAmmoStatement = connection.prepareStatement(updateAmmoQuery);
         updateAmmoStatement.setInt(1, ammoId);
-        updateAmmoStatement.setInt(2, 13);
+        updateAmmoStatement.setInt(2, currentID);
         updateAmmoStatement.executeUpdate();
     }
+
+    @FXML
+    private void isInputEmpty() {
+
+        String tankName = newTankName.getText();
+        String tankType = newTankType.getText();
+        String tankDesc = newTankDesc.getText();
+        String tankAmount = newTankAmount.getText();
+
+        String tankNation = newTankNation.getValue();
+        String tankAmmo = newTankAmmo.getValue();
+        LocalDate tankDate = newTankDate.getValue();
+
+        if (tankName.isEmpty()) {
+            newTankName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankName).play();
+            // Set an error message for tankName if you have a label for it
+            tankNameError.setText("Pole nazwa czołgu nie może być puste!");
+        } else {
+            newTankName.setStyle(null);
+            tankNameError.setText("");
+        }
+
+        if (tankType.isEmpty() || !isLetter(tankType)) {
+            newTankType.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankType).play();
+            // Set an error message for tankType if you have a label for it
+            tankTypeError.setText("Pole typ czołgu nie może być puste!");
+        } else {
+            newTankType.setStyle(null);
+            tankTypeError.setText("");
+        }
+
+        if (tankDesc.isEmpty()) {
+            newTankDesc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankDesc).play();
+            // Set an error message for tankDesc if you have a label for it
+            tankDescError.setText("Pole opis czołgu nie może być puste!");
+        } else {
+            newTankDesc.setStyle(null);
+            tankDescError.setText("");
+        }
+
+        if (tankAmount.isEmpty() || isLetter(tankAmount)) {
+            newTankAmount.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankAmount).play();
+            // Set an error message for tankAmount if you have a label for it
+            tankAmmountError.setText("Pole ilość czołgów nie może być puste!");
+        } else {
+            newTankAmount.setStyle(null);
+            tankAmmountError.setText("");
+        }
+
+        if (tankNation == null || tankNation.isEmpty()) {
+            newTankNation.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankNation).play();
+            // Set an error message for tankNation if you have a label for it
+            tankNationalityError.setText("Pole nacja czołgu nie może być puste!");
+        } else {
+            newTankNation.setStyle(null);
+            tankNationalityError.setText("");
+        }
+
+        if (tankAmmo == null || tankAmmo.isEmpty()) {
+            newTankAmmo.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankAmmo).play();
+            // Set an error message for tankAmmo if you have a label for it
+            tankAmmoError.setText("Pole amunicja czołgu nie może być puste!");
+        } else {
+            newTankAmmo.setStyle(null);
+            tankAmmoError.setText("");
+        }
+
+        if (tankDate == null) {
+            newTankDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankDate).play();
+            // Set an error message for tankDate if you have a label for it
+            tankDateError.setText("Pole data czołgu nie może być puste!");
+        } else {
+            newTankDate.setStyle(null);
+            tankDateError.setText("");
+        }
+    }
+
+    public static boolean isLetter(String input) {
+        for (int i = 0; i < input.length(); i++) {
+            if (Character.isLetter(input.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
