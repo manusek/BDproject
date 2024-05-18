@@ -20,24 +20,19 @@ import java.sql.Statement;
 
 
 public class MainView {
+
     @FXML
     private GridPane tanksGrid;
-
     @FXML
     private Button AddTank;
-
     @FXML
     private Button AddNation;
-
     @FXML
     private Button AddAmmo;
-
     @FXML
     private Label Username;
-
     @FXML
     private Label UserID;
-
     private User currentUser;
 
 
@@ -102,11 +97,9 @@ public class MainView {
                 tanksGrid.add(tankItem, column++, row);
                 GridPane.setMargin(tankItem, new Insets(5));
             }
-
             resultSet.close();
             statement.close();
             connection.close();
-
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -115,7 +108,7 @@ public class MainView {
 
 
     @FXML
-    public void addTank() throws IOException {
+    public void addTank() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("tank_add.fxml"));
             Parent root = loader.load();
@@ -144,7 +137,7 @@ public class MainView {
     }
 
     @FXML
-    public void  addAmmo(){
+    public void addAmmo(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ammo_add.fxml"));
             Parent root = loader.load();

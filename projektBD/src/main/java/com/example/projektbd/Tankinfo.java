@@ -21,50 +21,46 @@ import java.util.ResourceBundle;
 
 public class Tankinfo implements Initializable {
 
-
     @FXML
     private Label tankInfoAmount;
-
     @FXML
     private Label tankInfoDate;
-
     @FXML
     private Label tankInfoDesc;
-
 //    @FXML
 //    private ImageView tankInfoImg;
-
     @FXML
     private Label tankInfoName;
-
     @FXML
     private Label tankInfoNation;
-
     @FXML
     private Label tankInfoType;
-
     @FXML
     private Label tankInfoAmmo;
-
     @FXML
     private Label tankInfoAmmoDesc;
     private int tankId;
     private User currentUser;
     @FXML
     private Button deleteButton;
-
     @FXML
     private Button editButton;
     @FXML
     private Label tankInfoProd;
 
 
-
-
     public void setTankId(int tankId) {
         this.tankId = tankId;
         loadDataFromDatabase();
     }
+
+//    public void setCurrentUser(User user) {
+//        this.currentUser = user;
+//        if ( currentUser.getUserID() == 2) {
+//            editButton.setVisible(true);
+//            deleteButton.setVisible(true);
+//        }
+//    }
 
 
     private void loadDataFromDatabase() {
@@ -111,16 +107,6 @@ public class Tankinfo implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-    }
-
-
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        if (currentUser != null && currentUser.getUserID() != 2) {
-            editButton.setVisible(false);
-            deleteButton.setVisible(false);
-        }
     }
 
 
@@ -129,14 +115,12 @@ public class Tankinfo implements Initializable {
         try {
             Connection connection = ConnectDB.getConnection();
 
-            // Usuń powiązane dane z tabeli tank_ammunition
             String deleteTankAmmunitionQuery = "DELETE FROM tank_ammunition WHERE tank_id = ?";
             PreparedStatement deleteTankAmmunitionStatement = connection.prepareStatement(deleteTankAmmunitionQuery);
             deleteTankAmmunitionStatement.setInt(1, tankId);
             deleteTankAmmunitionStatement.executeUpdate();
             deleteTankAmmunitionStatement.close();
 
-            // Usuń czołg z tabeli tanks
             String deleteTankQuery = "DELETE FROM tanks WHERE tank_id = ?";
             PreparedStatement deleteTankStatement = connection.prepareStatement(deleteTankQuery);
             deleteTankStatement.setInt(1, tankId);
@@ -145,10 +129,8 @@ public class Tankinfo implements Initializable {
 
             connection.close();
 
-            // Zamknij widok
             Stage stage = (Stage) tankInfoName.getScene().getWindow();
             stage.close();
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -164,20 +146,15 @@ public class Tankinfo implements Initializable {
         Parent root = loader.load();
         TankAdd controller = loader.getController();
 
-        // Pobranie danych dotyczących wybranego czołgu
         controller.setTankDataForEdit(tankId);
 
         stage.setScene(new Scene(root));
         stage.show();
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Sprawdź czy użytkownik jest zalogowany i czy jego ID jest różne od 2
-        if (currentUser != null && currentUser.getUserID() != 2) {
-            // Jeśli tak, ukryj przyciski
-            editButton.setVisible(false);
-            deleteButton.setVisible(false);
-        }
+
     }
 }

@@ -11,22 +11,18 @@ public class AmmoAdd {
 
     @FXML
     private Button ammoButton;
-
     @FXML
     private Label ammoDescError;
-
     @FXML
     private Label ammoNameError;
-
     @FXML
     private TextArea newAmmoDesc;
-
     @FXML
     private TextField newAmmoName;
     private Connection connection;
 
-    public void addAmmo() throws SQLException {
 
+    public void addAmmo() throws SQLException {
         String name = newAmmoName.getText();
         String description = newAmmoDesc.getText();
 
@@ -90,6 +86,4 @@ public class AmmoAdd {
             ammoDescError.setText("");
         }
     }
-
-
 }

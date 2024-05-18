@@ -26,7 +26,6 @@ public class NationAdd {
 
 
     public void addNation() throws SQLException {
-
         String name = newNationName.getText();
         String prodName = newProdName.getText();
 

@@ -18,10 +18,10 @@ public class TankView {
 
     @FXML
     private Label tankName;
-
     @FXML
     private Label tankNation;
     private int tankId;
+    private User currentUser;
 
     public void setTankId(int tankId) {
         this.tankId = tankId;
@@ -71,5 +71,4 @@ public class TankView {
             e.printStackTrace();
         }
     }
-
 }

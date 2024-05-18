@@ -18,12 +18,10 @@ import java.time.format.DateTimeFormatter;
 
 public class TankAdd {
 
-    public TankAdd() {
-    }
+    public TankAdd() {}
 
     @FXML
     private ChoiceBox<String> newTankNation;
-
     @FXML
     private ChoiceBox<String> newTankAmmo;
     @FXML
@@ -38,35 +36,25 @@ public class TankAdd {
     private TextArea newTankDesc;
     @FXML
     private TextField newTankType;
-
     @FXML
     private Button addBut;
     @FXML
     private Button editBut;
-
     @FXML
     private Label tankAmmoError;
-
     @FXML
     private Label tankAmmountError;
-
     @FXML
     private Label tankDateError;
-
     @FXML
     private Label tankDescError;
-
     @FXML
     private Label tankNameError;
-
     @FXML
     private Label tankNationalityError;
-
     @FXML
     private Label tankTypeError;
-
     private Connection connection;
-
     private int currentTankId;
 
     // nie widac przycisku
@@ -145,7 +133,6 @@ public class TankAdd {
 
     @FXML
     public void saveTank(ActionEvent event) throws SQLException {
-
         String name = newTankName.getText();
         String type = newTankType.getText();
         String desc = newTankDesc.getText();
@@ -157,15 +144,12 @@ public class TankAdd {
         isInputEmpty();
 
         //TODO walidacja dziala oprocz tego ze nie moze byc ujemny amount
-
-        // Walidacja daty
         LocalDate dateValue = newTankDate.getValue();
         if (dateValue == null) {
             return;
         }
         String date = dateValue.toString();
 
-        // Walidacja dla nationSelection i ammoSelection
         if (nationSelection == null || ammoSelection == null) {
             return;
         }
@@ -176,7 +160,6 @@ public class TankAdd {
         String[] ammoParts = ammoSelection.split(":");
         int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-        // Walidacja czy amount jest liczbą
         if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty()  && !isNumeric(type) && isNumeric(amount)  && !containsDigits(type)) {
             int amountInt = Integer.parseInt(amount);
             System.out.println("All fields are valid. Saving tank to database...");
@@ -186,10 +169,9 @@ public class TankAdd {
                 return;
             }
 
-            // Wykonaj zapis do bazy danych
             saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId);
+
         } else {
-            // Wyświetl komunikat błędu lub powiadomienie dla użytkownika
             System.out.println("Please ensure that all fields are filled correctly.");
         }
     }
@@ -219,20 +201,18 @@ public class TankAdd {
             alert.setHeaderText(null);
             alert.setContentText("Nowy czołg został dodany do bazy danych.");
 
-            // Wyczyszczenie pól
             newTankName.clear();
             newTankType.clear();
             newTankDesc.clear();
             newTankAmount.clear();
             newTankDate.setValue(null);
-
             alert.showAndWait();
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setHeaderText(null);
             alert.setContentText("Nie udało się dodać nowego czołgu do bazy danych.");
-
             alert.showAndWait();
         }
 
@@ -254,11 +234,11 @@ public class TankAdd {
     }
 
     public void setTankDataForEdit(int tankId) {
-
         this.currentTankId = tankId;
 
         addBut.setVisible(false);
         editBut.setVisible(true);
+
         try {
             Connection connection = ConnectDB.getConnection();
 
@@ -278,7 +258,7 @@ public class TankAdd {
                 newTankDesc.setText(resultSet.getString("tank_desc"));
                 newTankAmount.setText(String.valueOf(resultSet.getInt("amount")));
                 newTankDate.setValue(resultSet.getDate("data").toLocalDate());
-                // Ustawienie wybranej nacji w ChoiceBox
+
                 newTankNation.getSelectionModel().select(resultSet.getInt("n_id") + ": " + resultSet.getString("nation_name"));
                 newTankAmmo.getSelectionModel().select(resultSet.getInt("a_id") + ": " + resultSet.getString("ammo_name"));
             }
@@ -305,8 +285,6 @@ public class TankAdd {
             isInputEmpty();
 
             //TODO walidacja dziala oprocz ujemnych liczb
-
-            // Walidacja daty
             LocalDate dateValue = newTankDate.getValue();
             if (dateValue == null) {
                 System.out.println("Date is not selected.");
@@ -314,7 +292,6 @@ public class TankAdd {
             }
             String date = dateValue.toString();
 
-            // Walidacja dla nationSelection i ammoSelection
             if (nationSelection == null || ammoSelection == null) {
                 System.out.println("Nation or Ammo selection is null.");
                 return;
@@ -326,7 +303,6 @@ public class TankAdd {
             String[] ammoParts = ammoSelection.split(":");
             int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-            // Walidacja czy amount jest liczbą i czy type nie zawiera cyfr
             if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !containsDigits(type) && isNumeric(amount)) {
                 int amountInt = Integer.parseInt(amount);
                 System.out.println("All fields are valid. Updating tank in database...");
@@ -336,11 +312,8 @@ public class TankAdd {
                     return;
                 }
 
-                // Wykonaj aktualizację w bazie danych
                 updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId);
-                editBut.setVisible(true);
             } else {
-                // Wyświetl komunikat błędu lub powiadomienie dla użytkownika
                 System.out.println("Please ensure that all fields are filled correctly.");
                 if (containsDigits(type)) {
                     System.out.println("Type contains digits, which is not allowed.");
@@ -401,7 +374,6 @@ public class TankAdd {
 
     @FXML
     private void isInputEmpty() {
-
         String tankName = newTankName.getText();
         String tankType = newTankType.getText();
         String tankDesc = newTankDesc.getText();
@@ -415,7 +387,6 @@ public class TankAdd {
         if (tankName.isEmpty()) {
             newTankName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankName).play();
-            // Set an error message for tankName if you have a label for it
             tankNameError.setText("Pole nazwa czołgu nie może być puste!");
         } else {
             newTankName.setStyle(null);
@@ -425,7 +396,6 @@ public class TankAdd {
         if (tankType.isEmpty() || !isLetter(tankType) || containsDigits(tankType)) {
             newTankType.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankType).play();
-            // Set an error message for tankType if you have a label for it
             tankTypeError.setText("Pole typ czołgu nie może być puste!");
         } else {
             newTankType.setStyle(null);
@@ -435,7 +405,6 @@ public class TankAdd {
         if (tankDesc.isEmpty()) {
             newTankDesc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankDesc).play();
-            // Set an error message for tankDesc if you have a label for it
             tankDescError.setText("Pole opis czołgu nie może być puste!");
         } else {
             newTankDesc.setStyle(null);
@@ -445,7 +414,6 @@ public class TankAdd {
         if (tankAmount.isEmpty() || isLetter(tankAmount)) {
             newTankAmount.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankAmount).play();
-            // Set an error message for tankAmount if you have a label for it
             tankAmmountError.setText("Pole ilość czołgów nie może być puste!");
         } else {
             newTankAmount.setStyle(null);
@@ -455,7 +423,6 @@ public class TankAdd {
         if (tankNation == null || tankNation.isEmpty()) {
             newTankNation.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankNation).play();
-            // Set an error message for tankNation if you have a label for it
             tankNationalityError.setText("Pole nacja czołgu nie może być puste!");
         } else {
             newTankNation.setStyle(null);
@@ -465,7 +432,6 @@ public class TankAdd {
         if (tankAmmo == null || tankAmmo.isEmpty()) {
             newTankAmmo.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankAmmo).play();
-            // Set an error message for tankAmmo if you have a label for it
             tankAmmoError.setText("Pole amunicja czołgu nie może być puste!");
         } else {
             newTankAmmo.setStyle(null);
@@ -475,7 +441,6 @@ public class TankAdd {
         if (tankDate == null) {
             newTankDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankDate).play();
-            // Set an error message for tankDate if you have a label for it
             tankDateError.setText("Pole data czołgu nie może być puste!");
         } else {
             newTankDate.setStyle(null);
