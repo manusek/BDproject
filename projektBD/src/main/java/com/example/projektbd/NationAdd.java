@@ -12,6 +12,8 @@ import java.time.LocalDate;
 
 public class NationAdd {
 
+    TankAdd tankAdd = new TankAdd();
+
     @FXML
     private TextField newNationName;
     @FXML
@@ -30,7 +32,7 @@ public class NationAdd {
 
         isInputEmpty();
 
-        if (!name.isEmpty() &&  !prodName.isEmpty()) {
+        if (!name.isEmpty() &&  !prodName.isEmpty() && !tankAdd.containsDigits(name) && !tankAdd.containsDigits(prodName)) {
             saveNation(name, prodName);
         }
     }
@@ -71,7 +73,7 @@ public class NationAdd {
         String nationName = newNationName.getText();
         String prodName = newProdName.getText();
 
-        if (nationName.isEmpty()) {
+        if (nationName.isEmpty() || tankAdd.containsDigits(nationName)) {
             newNationName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newNationName).play();
             nationNameError.setText("Pole nazwa nacji nie może być puste!");
@@ -80,7 +82,7 @@ public class NationAdd {
             nationNameError.setText("");
         }
 
-        if (prodName.isEmpty()) {
+        if (prodName.isEmpty() || tankAdd.containsDigits(prodName)) {
             newProdName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newProdName).play();
             prodNameError.setText("Pole nazwy produkcji nie może być puste!");

@@ -18,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 
 public class TankAdd {
 
+    public TankAdd() {
+    }
 
     @FXML
     private ChoiceBox<String> newTankNation;
@@ -154,11 +156,19 @@ public class TankAdd {
 
         isInputEmpty();
 
-        //TODO zrobic zeby typ i amount mogly zawierac tylko liczby a nie liczby i cyfry
-        //TODO ogarnac walidacje do daty i tych pol wyboru
+        //TODO walidacja dziala oprocz tego ze nie moze byc ujemny amount
 
+        // Walidacja daty
+        LocalDate dateValue = newTankDate.getValue();
+        if (dateValue == null) {
+            return;
+        }
+        String date = dateValue.toString();
 
-        String date = newTankDate.getValue().toString();
+        // Walidacja dla nationSelection i ammoSelection
+        if (nationSelection == null || ammoSelection == null) {
+            return;
+        }
 
         String[] nationParts = nationSelection.split(":");
         int nationId = Integer.parseInt(nationParts[0].trim());
@@ -166,11 +176,21 @@ public class TankAdd {
         String[] ammoParts = ammoSelection.split(":");
         int ammoId = Integer.parseInt(ammoParts[0].trim());
 
+        // Walidacja czy amount jest liczbą
+        if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty()  && !isNumeric(type) && isNumeric(amount)  && !containsDigits(type)) {
+            int amountInt = Integer.parseInt(amount);
+            System.out.println("All fields are valid. Saving tank to database...");
 
-        if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !isLetter(amount)) {
+            if (amountInt < 0) {
+                System.out.println("Amount cannot be negative.");
+                return;
+            }
+
             // Wykonaj zapis do bazy danych
-           // amount = String.valueOf(Integer.parseInt(amount));
-            saveTankToDatabase(name, type, desc, nationId, Integer.parseInt(amount), date, ammoId);
+            saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId);
+        } else {
+            // Wyświetl komunikat błędu lub powiadomienie dla użytkownika
+            System.out.println("Please ensure that all fields are filled correctly.");
         }
     }
 
@@ -277,25 +297,63 @@ public class TankAdd {
             String name = newTankName.getText();
             String type = newTankType.getText();
             String desc = newTankDesc.getText();
+            String amount = newTankAmount.getText();
 
             String nationSelection = newTankNation.getValue();
+            String ammoSelection = newTankAmmo.getValue();
+
+            isInputEmpty();
+
+            //TODO walidacja dziala oprocz ujemnych liczb
+
+            // Walidacja daty
+            LocalDate dateValue = newTankDate.getValue();
+            if (dateValue == null) {
+                System.out.println("Date is not selected.");
+                return;
+            }
+            String date = dateValue.toString();
+
+            // Walidacja dla nationSelection i ammoSelection
+            if (nationSelection == null || ammoSelection == null) {
+                System.out.println("Nation or Ammo selection is null.");
+                return;
+            }
+
             String[] nationParts = nationSelection.split(":");
             int nationId = Integer.parseInt(nationParts[0].trim());
 
-            int amount = Integer.parseInt(newTankAmount.getText());
-            String date = newTankDate.getValue().toString();
-
-            String ammoSelection = newTankAmmo.getValue();
             String[] ammoParts = ammoSelection.split(":");
             int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-            updateTankInDatabase(name, type, desc, nationId, amount, date, ammoId, currentTankId);
+            // Walidacja czy amount jest liczbą i czy type nie zawiera cyfr
+            if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !containsDigits(type) && isNumeric(amount)) {
+                int amountInt = Integer.parseInt(amount);
+                System.out.println("All fields are valid. Updating tank in database...");
 
-            editBut.setVisible(true);
+                if (amountInt < 0) {
+                    System.out.println("Amount cannot be negative.");
+                    return;
+                }
+
+                // Wykonaj aktualizację w bazie danych
+                updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId);
+                editBut.setVisible(true);
+            } else {
+                // Wyświetl komunikat błędu lub powiadomienie dla użytkownika
+                System.out.println("Please ensure that all fields are filled correctly.");
+                if (containsDigits(type)) {
+                    System.out.println("Type contains digits, which is not allowed.");
+                }
+                if (!isNumeric(amount)) {
+                    System.out.println("Amount is not a numeric value.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+        }
+
 
     private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int currentID) throws SQLException {
         connection = ConnectDB.getConnection();
@@ -315,8 +373,7 @@ public class TankAdd {
         statement.setInt(5, amount);
         statement.setDate(6, sqlDate);
 
-        //TODO DOKONCZYC EDYCJE ZE CZOLG KTORY KLIKNIEMY
-        statement.setInt(7, currentID); // zamiast 13 dac jego id
+        statement.setInt(7, currentID);
 
         int rowsUpdated = statement.executeUpdate();
         if (rowsUpdated > 0) {
@@ -349,6 +406,7 @@ public class TankAdd {
         String tankType = newTankType.getText();
         String tankDesc = newTankDesc.getText();
         String tankAmount = newTankAmount.getText();
+//        int tankAmount2 = Integer.parseInt(newTankAmount.getText());
 
         String tankNation = newTankNation.getValue();
         String tankAmmo = newTankAmmo.getValue();
@@ -364,7 +422,7 @@ public class TankAdd {
             tankNameError.setText("");
         }
 
-        if (tankType.isEmpty() || !isLetter(tankType)) {
+        if (tankType.isEmpty() || !isLetter(tankType) || containsDigits(tankType)) {
             newTankType.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newTankType).play();
             // Set an error message for tankType if you have a label for it
@@ -434,4 +492,27 @@ public class TankAdd {
         return false;
     }
 
+    public boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean containsDigits(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
