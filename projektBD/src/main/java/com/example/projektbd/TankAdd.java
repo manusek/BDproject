@@ -11,6 +11,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -56,6 +59,7 @@ public class TankAdd {
     private Label tankTypeError;
     private Connection connection;
     private int currentTankId;
+    private File selectedFile;
 
     // nie widac przycisku
     public Button getAddBut() {
@@ -116,12 +120,13 @@ public class TankAdd {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Wybierz zdjęcie");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Zdjęcia", "*.png", "*.jpg", "*.gif"), new FileChooser.ExtensionFilter("Wszystkie pliki", "*.*"));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Zdjęcia", "*.png", "*.jpg", "*.gif"),
+                new FileChooser.ExtensionFilter("Wszystkie pliki", "*.*"));
 
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        selectedFile = fileChooser.showOpenDialog(new Stage());
 
         if (selectedFile != null) {
-
             Image img = new Image(selectedFile.toURI().toString());
             image.setImage(img);
 
@@ -132,7 +137,7 @@ public class TankAdd {
 
 
     @FXML
-    public void saveTank(ActionEvent event) throws SQLException {
+    public void saveTank(ActionEvent event) throws SQLException, IOException {
         String name = newTankName.getText();
         String type = newTankType.getText();
         String desc = newTankDesc.getText();
@@ -143,7 +148,7 @@ public class TankAdd {
 
         isInputEmpty();
 
-        //TODO walidacja dziala oprocz tego ze nie moze byc ujemny amount
+        //TODO walidacja dziala oprocz tego ze nie moze byc ujemny amount uzyc triggera
         LocalDate dateValue = newTankDate.getValue();
         if (dateValue == null) {
             return;
@@ -169,17 +174,17 @@ public class TankAdd {
                 return;
             }
 
-            saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId);
+            saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId, selectedFile);
 
         } else {
             System.out.println("Please ensure that all fields are filled correctly.");
         }
     }
 
-    private void saveTankToDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId) throws SQLException {
+    private void saveTankToDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, File imageFile) throws SQLException, IOException {
         connection = ConnectDB.getConnection();
 
-        String query = "INSERT INTO tanks (nation_id, name, type, description, amount, data) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO tanks (nation_id, name, type, img, description, amount, data) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
 
@@ -190,9 +195,24 @@ public class TankAdd {
         statement.setInt(1, nationId);
         statement.setString(2, name);
         statement.setString(3, type);
-        statement.setString(4, desc);
-        statement.setInt(5, amount);
-        statement.setDate(6, sqlDate);
+
+        if (imageFile != null) {
+            try (FileInputStream fis = new FileInputStream(imageFile)) {
+                byte[] imageData = fis.readAllBytes();
+                statement.setBytes(4, imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            File defaultImg = new File("C:\\Users\\flore\\Desktop\\BD_sem4\\PROJEKT_BAZY\\BDproject\\projektBD\\src\\main\\resources\\com\\example\\projektbd\\img\\tank.png");
+            FileInputStream def = new FileInputStream(defaultImg);
+            byte[] defData = def.readAllBytes();
+            statement.setBytes(4, defData);
+        }
+
+        statement.setString(5, desc);
+        statement.setInt(6, amount);
+        statement.setDate(7, sqlDate);
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
@@ -206,6 +226,7 @@ public class TankAdd {
             newTankDesc.clear();
             newTankAmount.clear();
             newTankDate.setValue(null);
+            image.setImage(null);
             alert.showAndWait();
 
         } else {
@@ -258,6 +279,7 @@ public class TankAdd {
                 newTankDesc.setText(resultSet.getString("tank_desc"));
                 newTankAmount.setText(String.valueOf(resultSet.getInt("amount")));
                 newTankDate.setValue(resultSet.getDate("data").toLocalDate());
+
 
                 newTankNation.getSelectionModel().select(resultSet.getInt("n_id") + ": " + resultSet.getString("nation_name"));
                 newTankAmmo.getSelectionModel().select(resultSet.getInt("a_id") + ": " + resultSet.getString("ammo_name"));
@@ -312,7 +334,7 @@ public class TankAdd {
                     return;
                 }
 
-                updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId);
+                updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId, selectedFile);
             } else {
                 System.out.println("Please ensure that all fields are filled correctly.");
                 if (containsDigits(type)) {
@@ -328,10 +350,10 @@ public class TankAdd {
         }
 
 
-    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int currentID) throws SQLException {
+    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int currentID, File imageFile) throws SQLException {
         connection = ConnectDB.getConnection();
 
-        String query = "UPDATE tanks SET nation_id=?, name=?, type=?, description=?, amount=?, data=? WHERE tank_id=?";
+        String query = "UPDATE tanks SET nation_id=?, name=?, type=?, img=?, description=?, amount=?, data=? WHERE tank_id=?";
 
         PreparedStatement statement = connection.prepareStatement(query);
 
@@ -342,11 +364,23 @@ public class TankAdd {
         statement.setInt(1, nationId);
         statement.setString(2, name);
         statement.setString(3, type);
-        statement.setString(4, desc);
-        statement.setInt(5, amount);
-        statement.setDate(6, sqlDate);
 
-        statement.setInt(7, currentID);
+        if (imageFile != null) {
+            try (FileInputStream fis = new FileInputStream(imageFile)) {
+                byte[] imageData = fis.readAllBytes();
+                statement.setBytes(4, imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            statement.setNull(4, Types.BLOB);
+        }
+
+        statement.setString(5, desc);
+        statement.setInt(6, amount);
+        statement.setDate(7, sqlDate);
+
+        statement.setInt(8, currentID);
 
         int rowsUpdated = statement.executeUpdate();
         if (rowsUpdated > 0) {

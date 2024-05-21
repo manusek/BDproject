@@ -19,7 +19,7 @@
             <Font name="Ebrima" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="moreInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="136.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#more" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #93b066;" text="Wiecej info" textAlignment="CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="10.0">
+      <Button fx:id="moreInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="136.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#more" prefHeight="39.0" prefWidth="150.0" style="-fx-background-color: #93b066;" text="Wiecej info" textAlignment="CENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="10.0">
          <font>
             <Font name="Century" size="20.0" />
          </font>

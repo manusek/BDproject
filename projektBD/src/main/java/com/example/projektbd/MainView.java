@@ -21,6 +21,11 @@ import java.sql.Statement;
 
 public class MainView {
 
+
+    @FXML
+    private Button ListNations;
+    @FXML
+    private Button ListUsers;
     @FXML
     private GridPane tanksGrid;
     @FXML
@@ -69,6 +74,8 @@ public class MainView {
                 AddTank.setVisible(false);
                 AddNation.setVisible(false);
                 AddAmmo.setVisible(false);
+                ListUsers.setVisible(false);
+                ListNations.setVisible(false);
             }
         }
     }

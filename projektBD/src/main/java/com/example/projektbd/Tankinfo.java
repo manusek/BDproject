@@ -8,15 +8,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import javafx.scene.image.Image;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class Tankinfo implements Initializable {
@@ -27,8 +28,8 @@ public class Tankinfo implements Initializable {
     private Label tankInfoDate;
     @FXML
     private Label tankInfoDesc;
-//    @FXML
-//    private ImageView tankInfoImg;
+    @FXML
+    private ImageView tankInfoImg;
     @FXML
     private Label tankInfoName;
     @FXML
@@ -47,6 +48,7 @@ public class Tankinfo implements Initializable {
     private Button editButton;
     @FXML
     private Label tankInfoProd;
+    Image defaultImage = new Image("file:/C:/Users/flore/Desktop/BD_sem4/PROJEKT_BAZY/BDproject/projektBD/src/main/resources/com/example/projektbd/img/tank.png");
 
 
     public void setTankId(int tankId) {
@@ -67,7 +69,7 @@ public class Tankinfo implements Initializable {
         try {
             Connection connection = ConnectDB.getConnection();
 
-            String query = "SELECT t.name AS tank_name, type, t.description AS tank_desc, prod_place, amount, data, nation_name, a.name AS ammo_name, a.description AS ammo_desc " +
+            String query = "SELECT t.name AS tank_name, type, t.description AS tank_desc, img, prod_place, amount, data, nation_name, a.name AS ammo_name, a.description AS ammo_desc " +
                     "FROM tanks t  " +
                     "JOIN nationality ON t.nation_id = nationality.nation_id " +
                     "JOIN tank_ammunition on t.tank_id = tank_ammunition.tank_id " +
@@ -84,6 +86,7 @@ public class Tankinfo implements Initializable {
                 String type = resultSet.getString("type");
                 String description = resultSet.getString("tank_desc");
                 int amount = resultSet.getInt("amount");
+                byte[] imgBytes = resultSet.getBytes("img");
                 String date = resultSet.getString("data");
                 String ammoName = resultSet.getString("ammo_name");
                 String ammoDesc = resultSet.getString("ammo_desc");
@@ -94,6 +97,15 @@ public class Tankinfo implements Initializable {
                 tankInfoType.setText(type);
                 tankInfoDesc.setText(description);
                 tankInfoAmount.setText(String.valueOf(amount));
+
+                if (imgBytes != null) {
+                    InputStream inputStream = new ByteArrayInputStream(imgBytes);
+                    Image image = new Image(inputStream);
+                    tankInfoImg.setImage(image);
+                } else {
+                    tankInfoImg.setImage(defaultImage);
+                }
+
                 tankInfoDate.setText(date);
                 tankInfoAmmo.setText(ammoName);
                 tankInfoAmmoDesc.setText(ammoDesc);

@@ -84,6 +84,16 @@
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Button>
+            <Button fx:id="ListUsers" layoutX="41.0" layoutY="300.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Użytkownicy" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Ebrima" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="ListNations" layoutX="164.0" layoutY="300.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Nacje" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
