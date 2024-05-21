@@ -56,13 +56,21 @@ public class Tankinfo implements Initializable {
         loadDataFromDatabase();
     }
 
-//    public void setCurrentUser(User user) {
-//        this.currentUser = user;
-//        if ( currentUser.getUserID() == 2) {
-//            editButton.setVisible(true);
-//            deleteButton.setVisible(true);
-//        }
-//    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setCurrentUser();
+    }
+
+    public void setCurrentUser() {
+        int currentID = User.getUserID();
+        if (currentID != 0 && currentID == 2) {
+            editButton.setVisible(true);
+            deleteButton.setVisible(true);
+        } else {
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
+    }
 
 
     private void loadDataFromDatabase() {
@@ -164,9 +172,4 @@ public class Tankinfo implements Initializable {
         stage.show();
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 }

@@ -2,7 +2,7 @@ package com.example.projektbd;
 
 public class User {
     private String username;
-    private int userID;
+    private static int userID;
 
     public User(String username, int userID) {
         this.username = username;
@@ -17,11 +17,11 @@ public class User {
         this.username = username;
     }
 
-    public int getUserID() {
+    public static int getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public static void setUserID(int userID) {
+        User.userID = userID;
     }
 }

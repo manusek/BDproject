@@ -11,7 +11,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="700.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.Tankinfo">
    <children>
-      <ImageView fx:id="tankInfoImg" fitHeight="460.0" fitWidth="440.0" layoutX="260.0" pickOnBounds="true" preserveRatio="true" />
       <VBox prefHeight="650.0" prefWidth="260.0" style="-fx-background-color: #334712;">
          <children>
             <Label prefHeight="60.0" prefWidth="250.0" text="SZCZEGOLOWE INFORMACJE" textFill="WHITE">
@@ -293,5 +292,18 @@
             </Button>
          </children>
       </HBox>
+      <VBox layoutX="280.0" layoutY="32.0" prefHeight="450.0" prefWidth="400.0" style="-fx-border-color: #334712;">
+         <children>
+            <Label prefHeight="30.0" prefWidth="400.0" text="Zdjęcie" textAlignment="CENTER" textFill="#03220e">
+               <font>
+                  <Font name="Ebrima Bold" size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <ImageView fx:id="tankInfoImg" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
