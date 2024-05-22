@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="460.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.NationsList">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="460.0" style="-fx-background-color: #334712;">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/flags.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label prefHeight="70.0" prefWidth="240.0" text="Lista nacji" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="10.0" top="15.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Ebrima Bold" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <TableView layoutX="14.0" layoutY="107.0" prefHeight="385.0" prefWidth="450.0" style="-fx-background-color: #c1d2a7;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
+         <columns>
+            <TableColumn prefWidth="223.0" text="Nazwa nacji" />
+            <TableColumn prefWidth="199.0" text="Miejsce produkcji" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

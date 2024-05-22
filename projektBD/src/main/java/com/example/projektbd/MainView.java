@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 
 public class MainView {
@@ -68,9 +70,9 @@ public class MainView {
         this.currentUser = user;
         if (currentUser != null) {
             Username.setText(currentUser.getUsername());
-            UserID.setText(String.valueOf(currentUser.getUserID()));
+            UserID.setText(String.valueOf(User.getUserID()));
 
-            if (currentUser != null && currentUser.getUserID() != 2) {
+            if (currentUser != null && !Objects.equals(User.getType(), "admin")) {
                 AddTank.setVisible(false);
                 AddNation.setVisible(false);
                 AddAmmo.setVisible(false);
@@ -80,11 +82,22 @@ public class MainView {
         }
     }
 
+    @FXML
+    void refreshContent(MouseEvent event) {
+        loadContent();
+        System.out.println("odswiezono");
+    }
 
     public void initialize() {
+        loadContent();
+    }
+
+    private void loadContent() {
         int column = 0;
         int row = 1;
         try {
+            tanksGrid.getChildren().clear();
+
             Connection connection = ConnectDB.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM tanks");
@@ -147,6 +160,39 @@ public class MainView {
     public void addAmmo(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ammo_add.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//    sie moze przydac
+//    WHERE nation_id = 2;
+//    UPDATE nationality
+//    SET prod_place = 'Berlin'
+    @FXML
+    void showNations(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("list_nations.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void showUsers(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("list_users.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();

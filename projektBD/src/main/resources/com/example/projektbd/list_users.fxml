@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.UsersList">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="700.0" style="-fx-background-color: #334712;">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/users.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label prefHeight="70.0" prefWidth="240.0" text="Lista użytkowników" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="10.0" top="15.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Ebrima Bold" size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <TableView layoutX="5.0" layoutY="100.0" prefHeight="390.0" prefWidth="690.0" style="-fx-background-color: #c1d2a7;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
+         <columns>
+            <TableColumn prefWidth="142.0" text="Login" />
+            <TableColumn prefWidth="222.0" text="Email" />
+            <TableColumn minWidth="0.0" prefWidth="163.0" text="Password" />
+            <TableColumn minWidth="0.0" prefWidth="153.0" text="Typ konta" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

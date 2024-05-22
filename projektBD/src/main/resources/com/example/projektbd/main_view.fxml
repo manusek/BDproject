@@ -84,12 +84,12 @@
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="ListUsers" layoutX="41.0" layoutY="300.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Użytkownicy" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="ListUsers" layoutX="41.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#showUsers" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Użytkownicy" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Ebrima" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="ListNations" layoutX="164.0" layoutY="300.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Nacje" textFill="WHITE">
+            <Button fx:id="ListNations" layoutX="164.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#showNations" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Nacje" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -111,6 +111,15 @@
                   <Image url="@img/search.png" />
                </image>
             </ImageView>
+            <HBox layoutX="48.0" layoutY="14.0" prefHeight="50.0" prefWidth="49.0" style="-fx-border-color: #334712;">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#refreshContent" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/refresh.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
          </children>
       </Pane>
       <ScrollPane hbarPolicy="NEVER" layoutX="333.0" layoutY="107.0" prefHeight="460.0" prefWidth="620.0" vbarPolicy="ALWAYS">

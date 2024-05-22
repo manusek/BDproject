@@ -3,10 +3,12 @@ package com.example.projektbd;
 public class User {
     private String username;
     private static int userID;
+    private static String type;
 
-    public User(String username, int userID) {
+    public User(String username, int userID, String type) {
         this.username = username;
-        this.userID = userID;
+        User.userID = userID;
+        User.type = type;
     }
 
     public String getUsername() {
@@ -24,4 +26,8 @@ public class User {
     public static void setUserID(int userID) {
         User.userID = userID;
     }
+
+    public static String getType() {return type;}
+
+    public static void setType(String type) {User.type = type;}
 }

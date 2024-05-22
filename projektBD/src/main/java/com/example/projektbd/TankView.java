@@ -26,7 +26,6 @@ public class TankView {
     @FXML
     private Label tankNation;
     private int tankId;
-    private User currentUser;
 
     public void setTankId(int tankId) {
         this.tankId = tankId;
@@ -70,6 +69,7 @@ public class TankView {
     private void more() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("tank_info.fxml"));
+            //System.out.println(User.getUserID()); // DLA TESTA
             Parent parent = loader.load();
             Tankinfo tankinfoController = loader.getController();
             tankinfoController.setTankId(tankId);

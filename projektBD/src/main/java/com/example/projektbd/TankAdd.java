@@ -329,11 +329,11 @@ public class TankAdd {
                 int amountInt = Integer.parseInt(amount);
                 System.out.println("All fields are valid. Updating tank in database...");
 
-                if (amountInt < 0) {
-                    System.out.println("Amount cannot be negative.");
-                    return;
-                }
-
+                //TODO to zrboic za pomoca triggerow
+//                if (amountInt < 0) {
+//                    System.out.println("Amount cannot be negative.");
+//                    return;
+//                }
                 updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId, selectedFile);
             } else {
                 System.out.println("Please ensure that all fields are filled correctly.");
@@ -353,6 +353,22 @@ public class TankAdd {
     private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int currentID, File imageFile) throws SQLException {
         connection = ConnectDB.getConnection();
 
+        byte[] existingImageData = null;
+
+        // pobieramy obecne zdjecie jesli nie wybralismy zadnego do edycji
+        if (imageFile == null) {
+            String fetchImageQuery = "SELECT img FROM tanks WHERE tank_id = ?";
+            PreparedStatement fetchImageStatement = connection.prepareStatement(fetchImageQuery);
+            fetchImageStatement.setInt(1, currentID);
+            ResultSet resultSet = fetchImageStatement.executeQuery();
+
+            if (resultSet.next()) {
+                existingImageData = resultSet.getBytes("img");
+            }
+            resultSet.close();
+            fetchImageStatement.close();
+        }
+
         String query = "UPDATE tanks SET nation_id=?, name=?, type=?, img=?, description=?, amount=?, data=? WHERE tank_id=?";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -365,13 +381,15 @@ public class TankAdd {
         statement.setString(2, name);
         statement.setString(3, type);
 
-        if (imageFile != null) {
+        if (imageFile != null) { // jesli wybralismy nowe zdjecie do edycji
             try (FileInputStream fis = new FileInputStream(imageFile)) {
                 byte[] imageData = fis.readAllBytes();
                 statement.setBytes(4, imageData);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (existingImageData != null) { // jesli nie to zostawiamy to co było
+            statement.setBytes(4, existingImageData);
         } else {
             statement.setNull(4, Types.BLOB);
         }
@@ -379,7 +397,6 @@ public class TankAdd {
         statement.setString(5, desc);
         statement.setInt(6, amount);
         statement.setDate(7, sqlDate);
-
         statement.setInt(8, currentID);
 
         int rowsUpdated = statement.executeUpdate();

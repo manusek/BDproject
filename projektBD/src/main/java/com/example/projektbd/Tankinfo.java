@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Tankinfo implements Initializable {
@@ -62,8 +63,9 @@ public class Tankinfo implements Initializable {
     }
 
     public void setCurrentUser() {
-        int currentID = User.getUserID();
-        if (currentID != 0 && currentID == 2) {
+        String currentType = User.getType(); // PRZECHOWUJE TYP USERA
+        int currentID = User.getUserID(); // JAKBY BYLO POTRZEBNE, PRZECHOWUJE TO ID USERA
+        if (Objects.equals(currentType, "admin")) {
             editButton.setVisible(true);
             deleteButton.setVisible(true);
         } else {

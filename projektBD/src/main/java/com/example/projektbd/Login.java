@@ -46,7 +46,9 @@ public class Login {
                 int userID = resultSet.getInt("user_id");
                 // TODO to sprawia ze mamy dostepne ID aktualnie zalogowanego uzytkownika wszedzie
                 User.setUserID(userID);
-                User user = new User(resultSet.getString("user_login"), userID);
+                String type = resultSet.getString("acc_type");
+                User.setType(type);
+                User user = new User(resultSet.getString("user_login"), userID, type);
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("main_view.fxml"));
                 Parent parent = loader.load();
