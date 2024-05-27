@@ -52,13 +52,12 @@ public class CreateUser {
         isPassEquals();
         isEmailValid();
 
-        if (newPass.equals(newRePass) && !newPass.isEmpty() && !newLogin.isEmpty() && !newEmail.isEmpty() && isEmailValid()){
-            String sql = "INSERT INTO users (user_login, user_email, user_pass, acc_type) VALUES (?,?,?,?)";
+        if (newPass.equals(newRePass) && !newPass.isEmpty() && !newLogin.isEmpty() && !newEmail.isEmpty() && isEmailValid()){ //
+            String sql = "INSERT INTO users (user_login, user_email, user_pass) VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, newLogin);
             statement.setString(2, newEmail);
             statement.setString(3, newPass);
-            statement.setString(4, "user");
 
             statement.execute();
 
@@ -68,10 +67,8 @@ public class CreateUser {
             alert.setContentText("Udało ci się stworzyć nowego użytkownika");
             alert.showAndWait();
 
-            // Close current window
             Stage stage = (Stage) NewEmail.getScene().getWindow();
             stage.close();
-
         }
     }
 
@@ -143,12 +140,31 @@ public class CreateUser {
             NewEmail.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(NewEmail).play();
             emailError.setText("Nieprawidłowy format adresu email!");
+            return false; // Zwracamy false, jeśli adres email jest niepoprawny
         } else {
             NewEmail.setStyle(null);
             emailError.setText("");
+            return true; // Zwracamy true, jeśli adres email jest poprawny
         }
-        return false;
     }
+
+//    @FXML
+//    private boolean isEmailValid() {
+//        String email = NewEmail.getText();
+//        // Prosta walidacja adresu email za pomocą wyrażenia regularnego
+//        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
+//
+//        if (!email.matches(emailRegex)) {
+//            NewEmail.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+//            new animatefx.animation.Shake(NewEmail).play();
+//            emailError.setText("Nieprawidłowy format adresu email!");
+//        } else {
+//            NewEmail.setStyle(null);
+//            emailError.setText("");
+//        }
+//        return false;
+//    }
+
 
 
 

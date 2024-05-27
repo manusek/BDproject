@@ -4,12 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane prefHeight="500.0" prefWidth="460.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.NationsList">
    <children>
@@ -23,7 +23,7 @@
                   <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                </HBox.margin>
             </ImageView>
-            <Label prefHeight="70.0" prefWidth="240.0" text="Lista nacji" textFill="WHITE">
+            <Label prefHeight="70.0" prefWidth="150.0" text="Lista nacji" textFill="WHITE">
                <HBox.margin>
                   <Insets bottom="15.0" left="10.0" top="15.0" />
                </HBox.margin>
@@ -31,12 +31,21 @@
                   <Font name="Ebrima Bold" size="22.0" />
                </font>
             </Label>
+            <TextField fx:id="searchNation" prefHeight="35.0" promptText="wyszukaj">
+               <font>
+                  <Font name="Ebrima" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="30.0" />
+               </HBox.margin>
+            </TextField>
          </children>
       </HBox>
-      <TableView layoutX="14.0" layoutY="107.0" prefHeight="385.0" prefWidth="450.0" style="-fx-background-color: #c1d2a7;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
+      <TableView fx:id="nationsTable" layoutX="14.0" layoutY="107.0" prefHeight="385.0" prefWidth="450.0" style="-fx-background-color: #c1d2a7;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
          <columns>
-            <TableColumn prefWidth="223.0" text="Nazwa nacji" />
-            <TableColumn prefWidth="199.0" text="Miejsce produkcji" />
+            <TableColumn fx:id="nationId" prefWidth="40.0" text="ID" />
+            <TableColumn fx:id="nationName" prefWidth="224.0" text="Nazwa nacji" />
+            <TableColumn fx:id="nationProd" prefWidth="178.0" text="Miejsce produkcji" />
          </columns>
       </TableView>
    </children>

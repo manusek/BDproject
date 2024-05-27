@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -30,14 +31,23 @@
                   <Font name="Ebrima Bold" size="22.0" />
                </font>
             </Label>
+            <TextField fx:id="searchUser" prefHeight="35.0" promptText="wyszukaj">
+               <font>
+                  <Font name="Ebrima" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="120.0" top="30.0" />
+               </HBox.margin>
+            </TextField>
          </children>
       </HBox>
-      <TableView layoutX="5.0" layoutY="100.0" prefHeight="390.0" prefWidth="690.0" style="-fx-background-color: #c1d2a7;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
+      <TableView fx:id="usersTable" layoutX="5.0" layoutY="100.0" prefHeight="390.0" prefWidth="690.0" style="-fx-background-color: #c1d2a7;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
          <columns>
-            <TableColumn prefWidth="142.0" text="Login" />
-            <TableColumn prefWidth="222.0" text="Email" />
-            <TableColumn minWidth="0.0" prefWidth="163.0" text="Password" />
-            <TableColumn minWidth="0.0" prefWidth="153.0" text="Typ konta" />
+            <TableColumn fx:id="userId" prefWidth="36.0" text="ID" />
+            <TableColumn fx:id="userLogin" prefWidth="164.0" text="Login" />
+            <TableColumn fx:id="userEmail" prefWidth="151.0" text="Email" />
+            <TableColumn fx:id="userPass" minWidth="0.0" prefWidth="188.0" text="Password" />
+            <TableColumn fx:id="userAcc" minWidth="0.0" prefWidth="149.0" text="Typ konta" />
          </columns>
       </TableView>
    </children>

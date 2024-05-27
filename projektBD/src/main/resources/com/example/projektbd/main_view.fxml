@@ -98,7 +98,7 @@
       </AnchorPane>
       <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
          <children>
-            <TextField fx:id="SearchBar" layoutX="454.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" promptText="szukaj">
+            <TextField fx:id="SearchBar" layoutX="454.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleSearch" promptText="szukaj">
                <font>
                   <Font size="18.0" />
                </font>

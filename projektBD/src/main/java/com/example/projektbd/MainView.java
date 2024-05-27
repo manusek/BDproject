@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -41,7 +42,8 @@ public class MainView {
     @FXML
     private Label UserID;
     private User currentUser;
-
+    @FXML
+    private TextField SearchBar;
 
     public void logOut(ActionEvent event) {
         currentUser = null;

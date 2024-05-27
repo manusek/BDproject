@@ -148,7 +148,6 @@ public class TankAdd {
 
         isInputEmpty();
 
-        //TODO walidacja dziala oprocz tego ze nie moze byc ujemny amount uzyc triggera
         LocalDate dateValue = newTankDate.getValue();
         if (dateValue == null) {
             return;
@@ -165,17 +164,11 @@ public class TankAdd {
         String[] ammoParts = ammoSelection.split(":");
         int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-        if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty()  && !isNumeric(type) && isNumeric(amount)  && !containsDigits(type)) {
+        if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty()  && !isNumeric(type)  && !containsDigits(type)) {
             int amountInt = Integer.parseInt(amount);
             System.out.println("All fields are valid. Saving tank to database...");
 
-            if (amountInt < 0) {
-                System.out.println("Amount cannot be negative.");
-                return;
-            }
-
             saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId, selectedFile);
-
         } else {
             System.out.println("Please ensure that all fields are filled correctly.");
         }
@@ -306,7 +299,6 @@ public class TankAdd {
 
             isInputEmpty();
 
-            //TODO walidacja dziala oprocz ujemnych liczb
             LocalDate dateValue = newTankDate.getValue();
             if (dateValue == null) {
                 System.out.println("Date is not selected.");
@@ -325,23 +317,15 @@ public class TankAdd {
             String[] ammoParts = ammoSelection.split(":");
             int ammoId = Integer.parseInt(ammoParts[0].trim());
 
-            if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !containsDigits(type) && isNumeric(amount)) {
+            if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !containsDigits(type)) {
                 int amountInt = Integer.parseInt(amount);
                 System.out.println("All fields are valid. Updating tank in database...");
 
-                //TODO to zrboic za pomoca triggerow
-//                if (amountInt < 0) {
-//                    System.out.println("Amount cannot be negative.");
-//                    return;
-//                }
                 updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId, selectedFile);
             } else {
                 System.out.println("Please ensure that all fields are filled correctly.");
                 if (containsDigits(type)) {
                     System.out.println("Type contains digits, which is not allowed.");
-                }
-                if (!isNumeric(amount)) {
-                    System.out.println("Amount is not a numeric value.");
                 }
             }
         } catch (SQLException e) {
@@ -429,7 +413,6 @@ public class TankAdd {
         String tankType = newTankType.getText();
         String tankDesc = newTankDesc.getText();
         String tankAmount = newTankAmount.getText();
-//        int tankAmount2 = Integer.parseInt(newTankAmount.getText());
 
         String tankNation = newTankNation.getValue();
         String tankAmmo = newTankAmmo.getValue();
