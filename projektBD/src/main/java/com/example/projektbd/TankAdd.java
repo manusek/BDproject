@@ -28,6 +28,8 @@ public class TankAdd {
     @FXML
     private ChoiceBox<String> newTankAmmo;
     @FXML
+    private ChoiceBox<String> newTankMuseum;
+    @FXML
     private ImageView image;
     @FXML
     private TextField newTankName;
@@ -57,6 +59,8 @@ public class TankAdd {
     private Label tankNationalityError;
     @FXML
     private Label tankTypeError;
+    @FXML
+    private Label tankMuseumError;
     private Connection connection;
     private int currentTankId;
     private File selectedFile;
@@ -104,6 +108,20 @@ public class TankAdd {
         }
 
         newTankAmmo.setItems(ammunnition);
+
+        String sql3 = "SELECT museum_id, name FROM museum";
+
+        PreparedStatement statement3 = connection.prepareStatement(sql3);
+
+        ResultSet resultSet3 = statement3.executeQuery();
+
+        ObservableList<String> museum = FXCollections.observableArrayList();
+
+        while (resultSet3.next()) {
+            museum.add(resultSet3.getInt("museum_id") + ": " + resultSet3.getString("name"));
+        }
+
+        newTankMuseum.setItems(museum);
     }
 
 //    @FXML
@@ -145,6 +163,7 @@ public class TankAdd {
 
         String nationSelection = newTankNation.getValue();
         String ammoSelection = newTankAmmo.getValue();
+        String museumSelection = newTankMuseum.getValue();
 
         isInputEmpty();
 
@@ -154,7 +173,7 @@ public class TankAdd {
         }
         String date = dateValue.toString();
 
-        if (nationSelection == null || ammoSelection == null) {
+        if (nationSelection == null || ammoSelection == null || museumSelection == null) {
             return;
         }
 
@@ -164,17 +183,20 @@ public class TankAdd {
         String[] ammoParts = ammoSelection.split(":");
         int ammoId = Integer.parseInt(ammoParts[0].trim());
 
+        String[] museumName = museumSelection.split(":");
+        int museumId = Integer.parseInt(museumName[0].trim());
+
         if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty()  && !isNumeric(type)  && !containsDigits(type)) {
             int amountInt = Integer.parseInt(amount);
             System.out.println("All fields are valid. Saving tank to database...");
 
-            saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId, selectedFile);
+            saveTankToDatabase(name, type, desc, nationId, amountInt, date, ammoId, museumId, selectedFile);
         } else {
             System.out.println("Please ensure that all fields are filled correctly.");
         }
     }
 
-    private void saveTankToDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, File imageFile) throws SQLException, IOException {
+    private void saveTankToDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int museumId, File imageFile) throws SQLException, IOException {
         connection = ConnectDB.getConnection();
 
         String query = "INSERT INTO tanks (nation_id, name, type, img, description, amount, data) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -245,6 +267,13 @@ public class TankAdd {
         statement2.setInt(1, ammoId);
         statement2.setInt(2, tankID);
         statement2.executeUpdate();
+
+        String query3 = "INSERT INTO museum_tanks (museum_id, tank_id) VALUES (?, ?)";
+
+        PreparedStatement statement3 = connection.prepareStatement(query3);
+        statement3.setInt(1, museumId);
+        statement3.setInt(2, tankID);
+        statement3.executeUpdate();
     }
 
     public void setTankDataForEdit(int tankId) {
@@ -256,11 +285,13 @@ public class TankAdd {
         try {
             Connection connection = ConnectDB.getConnection();
 
-            String query = "SELECT t.name AS tank_name, a.ammo_id as a_id, type, t.description AS tank_desc, amount, data, nation_name, t.nation_id as n_id, a.name AS ammo_name, a.description AS ammo_desc " +
+            String query = "SELECT t.name AS tank_name, a.ammo_id as a_id, type, m.museum_id AS m_id, m.name as m_name, t.description AS tank_desc, amount, data, nation_name, t.nation_id as n_id, a.name AS ammo_name, a.description AS ammo_desc " +
                     "FROM tanks t  " +
                     "JOIN nationality ON t.nation_id = nationality.nation_id " +
                     "JOIN tank_ammunition on t.tank_id = tank_ammunition.tank_id " +
                     "JOIN ammunition a on tank_ammunition.ammo_id = a.ammo_id " +
+                    "JOIN museum_tanks on t.tank_id = museum_tanks.tank_id " +
+                    "JOIN museum m on museum_tanks.museum_id = m.museum_id " +
                     "WHERE t.tank_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, tankId);
@@ -276,6 +307,7 @@ public class TankAdd {
 
                 newTankNation.getSelectionModel().select(resultSet.getInt("n_id") + ": " + resultSet.getString("nation_name"));
                 newTankAmmo.getSelectionModel().select(resultSet.getInt("a_id") + ": " + resultSet.getString("ammo_name"));
+                newTankMuseum.getSelectionModel().select(resultSet.getInt("m_id") + ": " + resultSet.getString("m_name"));
             }
 
             resultSet.close();
@@ -296,6 +328,7 @@ public class TankAdd {
 
             String nationSelection = newTankNation.getValue();
             String ammoSelection = newTankAmmo.getValue();
+            String museumSelection = newTankMuseum.getValue();
 
             isInputEmpty();
 
@@ -306,8 +339,8 @@ public class TankAdd {
             }
             String date = dateValue.toString();
 
-            if (nationSelection == null || ammoSelection == null) {
-                System.out.println("Nation or Ammo selection is null.");
+            if (nationSelection == null || ammoSelection == null || museumSelection == null) {
+                System.out.println("Nation, Ammo or Museum selection is null.");
                 return;
             }
 
@@ -317,11 +350,14 @@ public class TankAdd {
             String[] ammoParts = ammoSelection.split(":");
             int ammoId = Integer.parseInt(ammoParts[0].trim());
 
+            String[] museumName = museumSelection.split(":");
+            int museumId = Integer.parseInt(museumName[0].trim());
+
             if (!name.isEmpty() && !type.isEmpty() && !desc.isEmpty() && !containsDigits(type)) {
                 int amountInt = Integer.parseInt(amount);
                 System.out.println("All fields are valid. Updating tank in database...");
 
-                updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, currentTankId, selectedFile);
+                updateTankInDatabase(name, type, desc, nationId, amountInt, date, ammoId, museumId, currentTankId, selectedFile);
             } else {
                 System.out.println("Please ensure that all fields are filled correctly.");
                 if (containsDigits(type)) {
@@ -334,7 +370,7 @@ public class TankAdd {
         }
 
 
-    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int currentID, File imageFile) throws SQLException {
+    private void updateTankInDatabase(String name, String type, String desc, int nationId, int amount, String date, int ammoId, int museumId, int currentID, File imageFile) throws SQLException {
         connection = ConnectDB.getConnection();
 
         byte[] existingImageData = null;
@@ -405,6 +441,12 @@ public class TankAdd {
         updateAmmoStatement.setInt(1, ammoId);
         updateAmmoStatement.setInt(2, currentID);
         updateAmmoStatement.executeUpdate();
+
+        String updateMuseum = "UPDATE museum_tanks SET museum_id=? WHERE tank_id=?";
+        PreparedStatement updateMuseumStatement = connection.prepareStatement(updateMuseum);
+        updateMuseumStatement.setInt(1, museumId);
+        updateMuseumStatement.setInt(2, currentID);
+        updateMuseumStatement.executeUpdate();
     }
 
     @FXML
@@ -416,7 +458,18 @@ public class TankAdd {
 
         String tankNation = newTankNation.getValue();
         String tankAmmo = newTankAmmo.getValue();
+        String tankMuseum = newTankMuseum.getValue();
         LocalDate tankDate = newTankDate.getValue();
+
+
+        if (tankMuseum == null || tankMuseum.isEmpty()) {
+            newTankMuseum.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(newTankMuseum).play();
+            tankMuseumError.setText("Pole muzuem czołgu nie może być puste!");
+        } else {
+            newTankMuseum.setStyle(null);
+            tankMuseumError.setText("");
+        }
 
         if (tankName.isEmpty()) {
             newTankName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");

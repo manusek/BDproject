@@ -1,5 +1,7 @@
 package com.example.projektbd;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -15,16 +18,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Objects;
 
 
 public class MainView {
 
-
+    @FXML
+    private Button AddMuseum;
     @FXML
     private Button ListNations;
     @FXML
@@ -44,6 +45,10 @@ public class MainView {
     private User currentUser;
     @FXML
     private TextField SearchBar;
+    @FXML
+    private ComboBox<String> chooseMuseum;
+    private Connection connection;
+
 
     public void logOut(ActionEvent event) {
         currentUser = null;
@@ -53,6 +58,7 @@ public class MainView {
 
         openLoginWindow();
     }
+
 
     private void openLoginWindow() {
         try {
@@ -80,21 +86,59 @@ public class MainView {
                 AddAmmo.setVisible(false);
                 ListUsers.setVisible(false);
                 ListNations.setVisible(false);
+                AddMuseum.setVisible(false);
             }
         }
     }
 
+
+    public void fetchMuseums() throws SQLException {
+        connection = ConnectDB.getConnection();
+        String sql = "SELECT museum_id, name from museum";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        ObservableList<String> muzeum = FXCollections.observableArrayList();
+        while (resultSet.next()){
+            muzeum.add(resultSet.getInt("museum_id") + ": " + resultSet.getString("name"));
+        }
+
+        chooseMuseum.setItems(muzeum);
+    }
+
+
+    @FXML
+    public void filterByMuseum() {
+        String selectedMuseum = chooseMuseum.getSelectionModel().getSelectedItem();
+        if (selectedMuseum != null && !selectedMuseum.isEmpty()) {
+            String museumId = selectedMuseum.split(":")[0];
+            loadContent(museumId);
+        } else {
+            loadContent(null);
+        }
+    }
+
+
     @FXML
     void refreshContent(MouseEvent event) {
-        loadContent();
+        String selectedMuseum = chooseMuseum.getSelectionModel().getSelectedItem();
+        if (selectedMuseum != null && !selectedMuseum.isEmpty()) {
+            String museumId = selectedMuseum.split(":")[0];
+            loadContent(museumId);
+        } else {
+            loadContent(null);
+        }
         System.out.println("odswiezono");
     }
 
-    public void initialize() {
-        loadContent();
+
+    public void initialize() throws SQLException {
+        fetchMuseums();
+        loadContent(null);
     }
 
-    private void loadContent() {
+
+    private void loadContent(String museumId) {
         int column = 0;
         int row = 1;
         try {
@@ -102,7 +146,19 @@ public class MainView {
 
             Connection connection = ConnectDB.getConnection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM tanks");
+            ResultSet resultSet;
+
+            if (museumId == null || museumId.isEmpty()) {
+                resultSet = statement.executeQuery(
+                        "SELECT * FROM tanks"
+                );
+            } else {
+                resultSet = statement.executeQuery(
+                        "SELECT * FROM tanks " +
+                                "JOIN museum_tanks ON tanks.tank_id = museum_tanks.tank_id " +
+                                "WHERE museum_tanks.museum_id = " + museumId
+                );
+            }
 
             while (resultSet.next()) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -158,6 +214,7 @@ public class MainView {
         }
     }
 
+
     @FXML
     public void addAmmo(){
         try {
@@ -191,6 +248,7 @@ public class MainView {
         }
     }
 
+
     @FXML
     void showUsers(MouseEvent event) {
         try {
@@ -205,4 +263,17 @@ public class MainView {
         }
     }
 
+    @FXML
+    void addMuseum(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("museum_add.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

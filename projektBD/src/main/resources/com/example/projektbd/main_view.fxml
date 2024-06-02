@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -79,9 +80,9 @@
                   <Font name="Ebrima" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="AddAmmo" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="371.0" mnemonicParsing="false" onMouseClicked="#addAmmo" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Dodaj nowa amunicje" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+            <Button fx:id="AddAmmo" alignment="CENTER" contentDisplay="CENTER" layoutX="42.0" layoutY="371.0" mnemonicParsing="false" onMouseClicked="#addAmmo" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Amunicja" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="201.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="164.0">
                <font>
-                  <Font name="Ebrima" size="18.0" />
+                  <Font name="Ebrima" size="13.0" />
                </font>
             </Button>
             <Button fx:id="ListUsers" layoutX="41.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#showUsers" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Użytkownicy" textAlignment="CENTER" textFill="WHITE">
@@ -94,11 +95,16 @@
                   <Font size="18.0" />
                </font>
             </Button>
+            <Button fx:id="AddMuseum" layoutX="130.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#addMuseum" prefHeight="40.0" prefWidth="115.0" style="-fx-background-color: #334712; -fx-border-radius: 10; -fx-background-radius: 10;" text="Muzea" textFill="WHITE">
+               <font>
+                  <Font name="Ebrima" size="15.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
          <children>
-            <TextField fx:id="SearchBar" layoutX="454.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleSearch" promptText="szukaj">
+            <TextField fx:id="SearchBar" layoutX="454.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" promptText="szukaj" style="-fx-border-color: #334712;">
                <font>
                   <Font size="18.0" />
                </font>
@@ -106,7 +112,7 @@
                   <Insets left="5.0" />
                </padding>
             </TextField>
-            <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="424.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="424.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/search.png" />
                </image>
@@ -120,6 +126,8 @@
                   </ImageView>
                </children>
             </HBox>
+            <ComboBox fx:id="chooseMuseum" layoutX="110.0" layoutY="25.0" onAction="#filterByMuseum" prefHeight="30.0" prefWidth="210.0" promptText="Wybierz muzeum" style="-fx-border-color: #334712;" />
+
          </children>
       </Pane>
       <ScrollPane hbarPolicy="NEVER" layoutX="333.0" layoutY="107.0" prefHeight="460.0" prefWidth="620.0" vbarPolicy="ALWAYS">

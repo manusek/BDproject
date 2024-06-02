@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #c1d2a7;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projektbd.MuseumAdd">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="450.0">
+         <children>
+            <HBox prefHeight="80.0" prefWidth="450.0">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@img/museum.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="60.0" prefWidth="290.0" text="Dodaj nowe muzeum">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Ebrima Bold" size="17.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="450.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="450.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="450.0" text="Nazwa">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newMuseumName" prefHeight="30.0" prefWidth="450.0" promptText="podaj nazwe muzeum" style="-fx-border-color: #334712;">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </padding>
+                        </TextField>
+                        <Label fx:id="museumNameError" prefHeight="20.0" prefWidth="450.0" textAlignment="CENTER" textFill="RED">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="450.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="450.0">
+                     <children>
+                        <Label prefHeight="40.0" prefWidth="450.0" text="Miejscowosc">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="newMuseumPlace" prefHeight="30.0" prefWidth="450.0" promptText="podaj miejscowosc" style="-fx-border-color: #334712;">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Button fx:id="museumButton" mnemonicParsing="false" onMouseClicked="#addMuseum" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #334712;" text="Dodaj" textFill="WHITE">
+               <font>
+                  <Font name="Century" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="150.0" right="150.0" top="20.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="450.0" prefHeight="400.0" prefWidth="250.0" style="-fx-background-color: #334712;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/background_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
