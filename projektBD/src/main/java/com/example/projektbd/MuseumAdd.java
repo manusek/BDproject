@@ -1,15 +1,13 @@
 package com.example.projektbd;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class MuseumAdd {
 
@@ -21,7 +19,6 @@ public class MuseumAdd {
     private TextField newMuseumPlace;
     private Connection connection;
 
-
     @FXML
     void addMuseum(MouseEvent event) throws SQLException {
         String name = newMuseumName.getText();
@@ -29,7 +26,7 @@ public class MuseumAdd {
 
         isInputEmpty();
 
-        if (!name.isEmpty() && !containsDigits(place)){
+        if (!name.isEmpty() && !containsDigits(place)) {
             saveMuseum(name, place);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -40,35 +37,27 @@ public class MuseumAdd {
         }
     }
 
-
     private void saveMuseum(String name, String place) throws SQLException {
         connection = ConnectDB.getConnection();
 
-        String query = "INSERT INTO museum (name, localization) VALUES (?, ?)";
+        String query = "CALL add_museum(?, ?)";
 
-        PreparedStatement statement = connection.prepareStatement(query);
+        CallableStatement statement = connection.prepareCall(query);
 
         statement.setString(1, name);
         statement.setString(2, place);
 
-        int rowsInserted = statement.executeUpdate();
-        if (rowsInserted > 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sukces");
-            alert.setHeaderText(null);
-            alert.setContentText("Nowe muzeum zostało dodana do bazy danych.");
+        statement.executeUpdate();
 
-            newMuseumName.clear();
-            newMuseumPlace.clear();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sukces");
+        alert.setHeaderText(null);
+        alert.setContentText("Nowe muzeum zostało dodane do bazy danych.");
 
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Błąd");
-            alert.setHeaderText(null);
-            alert.setContentText("Nie udało się dodać nowego muzeum do bazy danych.");
-            alert.showAndWait();
-        }
+        newMuseumName.clear();
+        newMuseumPlace.clear();
+
+        alert.showAndWait();
     }
 
     @FXML
@@ -78,7 +67,7 @@ public class MuseumAdd {
         if (museumName.isEmpty()) {
             newMuseumName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(newMuseumName).play();
-            museumNameError.setText("Pole nazwa nacji nie może być puste!");
+            museumNameError.setText("Pole nazwa muzeum nie może być puste!");
         } else {
             newMuseumName.setStyle(null);
             museumNameError.setText("");
@@ -97,4 +86,3 @@ public class MuseumAdd {
         return false;
     }
 }
-

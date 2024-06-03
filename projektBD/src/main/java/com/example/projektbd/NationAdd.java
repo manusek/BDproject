@@ -39,31 +39,24 @@ public class NationAdd {
     private void saveNation(String name, String prodName) throws SQLException {
         connection = ConnectDB.getConnection();
 
-        String query = "INSERT INTO nationality (nation_name, prod_place) VALUES (?, ?) ";
+        String query = "CALL add_nation(?, ?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
 
         statement.setString(1, name);
         statement.setString(2, prodName);
 
-        int rowsInserted = statement.executeUpdate();
-        if (rowsInserted > 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sukces");
-            alert.setHeaderText(null);
-            alert.setContentText("Nowa nacja została dodana do bazy danych.");
+        statement.executeUpdate();
 
-            newNationName.clear();
-            newProdName.clear();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sukces");
+        alert.setHeaderText(null);
+        alert.setContentText("Nowa nacja została dodana do bazy danych.");
 
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Błąd");
-            alert.setHeaderText(null);
-            alert.setContentText("Nie udało się dodać nowej nacji do bazy danych.");
-            alert.showAndWait();
-        }
+        newNationName.clear();
+        newProdName.clear();
+
+        alert.showAndWait();
     }
 
 

@@ -5,10 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +37,18 @@ public class NationsList {
     private void initialize() throws SQLException {
         loadDate();
         search_nation();
+        enableEditing();
     }
+
+    private void enableEditing() {
+        nationsTable.setEditable(true);
+
+        nationName.setCellFactory(TextFieldTableCell.forTableColumn());
+        nationProd.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        nationName.setOnEditCommit(event -> updateNationField(event, "nation_name", event.getNewValue()));
+        nationProd.setOnEditCommit(event -> updateNationField(event, "prod_place", event.getNewValue()));
+}
 
     private void loadDate() throws SQLException {
         nationId.setCellValueFactory(new PropertyValueFactory<>("nationId"));
@@ -104,4 +118,43 @@ public class NationsList {
         nationsTable.setItems(sortedData);
     }
 
+    private void updateNationField(TableColumn.CellEditEvent<listOfNations, ?> event, String fieldName, Object newValue) {
+        listOfNations nation = event.getRowValue();
+        String query = "UPDATE nationality SET " + fieldName + " = ? WHERE nation_id = ?";
+
+        try (Connection connection = ConnectDB.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setObject(1, newValue);
+            stmt.setInt(2, nation.getNationId());
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                switch (fieldName) {
+                    case "nation_name":
+                        nation.setNationName((String) newValue);
+                        break;
+                    case "prod_place":
+                        nation.setNationProd((String) newValue);
+                        break;
+                }
+                nationsTable.refresh();
+                showAlert(Alert.AlertType.INFORMATION, "Sukces", "Dane nacji zostały zaktualizowane.");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Błąd", "Aktualizacja danych nacji nie powiodła się.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Błąd", "Wystąpił błąd podczas aktualizacji danych.");
+        }
+    }
+
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

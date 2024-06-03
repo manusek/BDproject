@@ -5,17 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class UsersList {
 
@@ -40,6 +41,21 @@ public class UsersList {
     private void initialize() throws SQLException {
         loadDate();
         search_user();
+        enableEditing();
+    }
+
+    private void enableEditing() {
+        usersTable.setEditable(true);
+
+        userLogin.setCellFactory(TextFieldTableCell.forTableColumn());
+        userEmail.setCellFactory(TextFieldTableCell.forTableColumn());
+        userPass.setCellFactory(TextFieldTableCell.forTableColumn());
+        userAcc.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        userLogin.setOnEditCommit(event -> updateUserField(event, "user_login", event.getNewValue()));
+        userEmail.setOnEditCommit(event -> updateUserField(event, "user_email", event.getNewValue()));
+        userPass.setOnEditCommit(event -> updateUserField(event, "user_pass", event.getNewValue()));
+        userAcc.setOnEditCommit(event -> updateUserField(event, "acc_type", event.getNewValue()));
     }
 
     private void loadDate() throws SQLException {
@@ -118,5 +134,51 @@ public class UsersList {
         SortedList<listOfUsers> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(usersTable.comparatorProperty());
         usersTable.setItems(sortedData);
+    }
+
+    private void updateUserField(TableColumn.CellEditEvent<listOfUsers, ?> event, String fieldName, Object newValue) {
+        listOfUsers user = event.getRowValue();
+        String query = "UPDATE users SET " + fieldName + " = ? WHERE user_id = ?";
+
+        try (Connection connection = ConnectDB.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setObject(1, newValue);
+            stmt.setInt(2, user.getUserId());
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                // Update the value in the observable list
+                switch (fieldName) {
+                    case "user_login":
+                        user.setUserLogin((String) newValue);
+                        break;
+                    case "user_email":
+                        user.setUserEmail((String) newValue);
+                        break;
+                    case "user_pass":
+                        user.setUserPass((String) newValue);
+                        break;
+                    case "acc_type":
+                        user.setUserAcc((String) newValue);
+                        break;
+                }
+                usersTable.refresh();
+                showAlert(Alert.AlertType.INFORMATION, "Sukces", "Dane użytkownika zostały zaktualizowane.");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Błąd", "Aktualizacja danych użytkownika nie powiodła się.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Błąd", "Wystąpił błąd podczas aktualizacji danych.");
+        }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
