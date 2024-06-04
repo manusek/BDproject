@@ -143,6 +143,12 @@ public class Tankinfo implements Initializable {
             deleteTankAmmunitionStatement.executeUpdate();
             deleteTankAmmunitionStatement.close();
 
+            String deleteTankInMuseum = "DELETE FROM museum_tanks WHERE tank_id = ?";
+            PreparedStatement deleteTankInMuseumStatement = connection.prepareStatement(deleteTankInMuseum);
+            deleteTankInMuseumStatement.setInt(1, tankId);
+            deleteTankInMuseumStatement.executeUpdate();
+            deleteTankInMuseumStatement.close();
+
             String deleteTankQuery = "DELETE FROM tanks WHERE tank_id = ?";
             PreparedStatement deleteTankStatement = connection.prepareStatement(deleteTankQuery);
             deleteTankStatement.setInt(1, tankId);

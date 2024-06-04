@@ -47,8 +47,9 @@ public class MainView {
     private TextField SearchBar;
     @FXML
     private ComboBox<String> chooseMuseum;
+    @FXML
+    private ComboBox<String> chooseNation;
     private Connection connection;
-
 
     public void logOut(ActionEvent event) {
         currentUser = null;
@@ -58,7 +59,6 @@ public class MainView {
 
         openLoginWindow();
     }
-
 
     private void openLoginWindow() {
         try {
@@ -72,7 +72,6 @@ public class MainView {
             e.printStackTrace();
         }
     }
-
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
@@ -91,6 +90,18 @@ public class MainView {
         }
     }
 
+    public void fetchNations() throws SQLException {
+        connection = ConnectDB.getConnection();
+        String query = "SELECT nation_id, nation_name FROM nationality";
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+
+        ObservableList<String> nacje = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            nacje.add(resultSet.getInt("nation_id") + ": " + resultSet.getString("nation_name"));
+        }
+        chooseNation.setItems(nacje);
+    }
 
     public void fetchMuseums() throws SQLException {
         connection = ConnectDB.getConnection();
@@ -99,46 +110,72 @@ public class MainView {
         ResultSet resultSet = statement.executeQuery();
 
         ObservableList<String> muzeum = FXCollections.observableArrayList();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             muzeum.add(resultSet.getInt("museum_id") + ": " + resultSet.getString("name"));
         }
 
         chooseMuseum.setItems(muzeum);
     }
 
-
     @FXML
     public void filterByMuseum() {
         String selectedMuseum = chooseMuseum.getSelectionModel().getSelectedItem();
+        String museumId = null;
         if (selectedMuseum != null && !selectedMuseum.isEmpty()) {
-            String museumId = selectedMuseum.split(":")[0];
-            loadContent(museumId);
-        } else {
-            loadContent(null);
+            museumId = selectedMuseum.split(":")[0];
         }
+        String searchQuery = SearchBar.getText();
+        String selectedNation = chooseNation.getSelectionModel().getSelectedItem();
+        String nationId = null;
+        if (selectedNation != null && !selectedNation.isEmpty()) {
+            nationId = selectedNation.split(":")[0];
+        }
+        loadContent(museumId, searchQuery, nationId);
     }
 
+    @FXML
+    void filterByNation(ActionEvent event) {
+        String selectedNation = chooseNation.getSelectionModel().getSelectedItem();
+        String nationId = null;
+        if (selectedNation != null && !selectedNation.isEmpty()) {
+            nationId = selectedNation.split(":")[0];
+        }
+        String searchQuery = SearchBar.getText();
+        String selectedMuseum = chooseMuseum.getSelectionModel().getSelectedItem();
+        String museumId = null;
+        if (selectedMuseum != null && !selectedMuseum.isEmpty()) {
+            museumId = selectedMuseum.split(":")[0];
+        }
+        loadContent(museumId, searchQuery, nationId);
+    }
 
     @FXML
     void refreshContent(MouseEvent event) {
         String selectedMuseum = chooseMuseum.getSelectionModel().getSelectedItem();
+        String museumId = null;
         if (selectedMuseum != null && !selectedMuseum.isEmpty()) {
-            String museumId = selectedMuseum.split(":")[0];
-            loadContent(museumId);
-        } else {
-            loadContent(null);
+            museumId = selectedMuseum.split(":")[0];
         }
+        String searchQuery = SearchBar.getText();
+        String selectedNation = chooseNation.getSelectionModel().getSelectedItem();
+        String nationId = null;
+        if (selectedNation != null && !selectedNation.isEmpty()) {
+            nationId = selectedNation.split(":")[0];
+        }
+        loadContent(museumId, searchQuery, nationId);
         System.out.println("odswiezono");
     }
 
-
-    public void initialize() throws SQLException {
+    @FXML
+    private void initialize() throws SQLException {
         fetchMuseums();
-        loadContent(null);
+        fetchNations();
+        loadContent(null, "", null);
+
+        SearchBar.setOnKeyReleased(event -> filterBySearchQuery());
     }
 
-
-    private void loadContent(String museumId) {
+    private void loadContent(String museumId, String searchQuery, String nationId) {
         int column = 0;
         int row = 1;
         try {
@@ -148,17 +185,26 @@ public class MainView {
             Statement statement = connection.createStatement();
             ResultSet resultSet;
 
-            if (museumId == null || museumId.isEmpty()) {
-                resultSet = statement.executeQuery(
-                        "SELECT * FROM tanks"
-                );
-            } else {
-                resultSet = statement.executeQuery(
-                        "SELECT * FROM tanks " +
-                                "JOIN museum_tanks ON tanks.tank_id = museum_tanks.tank_id " +
-                                "WHERE museum_tanks.museum_id = " + museumId
-                );
+            String sql = "SELECT * FROM tanks";
+
+            if (museumId != null && !museumId.isEmpty()) {
+                sql += " JOIN museum_tanks ON tanks.tank_id = museum_tanks.tank_id WHERE museum_tanks.museum_id = " + museumId;
+                if (nationId != null && !nationId.isEmpty()) {
+                    sql += " AND tanks.nation_id = " + nationId;
+                }
+                if (searchQuery != null && !searchQuery.isEmpty()) {
+                    sql += " AND tanks.name LIKE '%" + searchQuery + "%'";
+                }
+            } else if (nationId != null && !nationId.isEmpty()) {
+                sql += " WHERE tanks.nation_id = " + nationId;
+                if (searchQuery != null && !searchQuery.isEmpty()) {
+                    sql += " AND tanks.name LIKE '%" + searchQuery + "%'";
+                }
+            } else if (searchQuery != null && !searchQuery.isEmpty()) {
+                sql += " WHERE tanks.name LIKE '%" + searchQuery + "%'";
             }
+
+            resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -184,6 +230,30 @@ public class MainView {
         }
     }
 
+    @FXML
+    private void filterBySearchQuery() {
+        String selectedMuseum = chooseMuseum.getSelectionModel().getSelectedItem();
+        String museumId = null;
+        if (selectedMuseum != null && !selectedMuseum.isEmpty()) {
+            museumId = selectedMuseum.split(":")[0];
+        }
+        String searchQuery = SearchBar.getText();
+        String selectedNation = chooseNation.getSelectionModel().getSelectedItem();
+        String nationId = null;
+        if (selectedNation != null && !selectedNation.isEmpty()) {
+            nationId = selectedNation.split(":")[0];
+        }
+        loadContent(museumId, searchQuery, nationId);
+    }
+
+    @FXML
+    void resetContent(MouseEvent event) {
+        chooseMuseum.getSelectionModel().clearSelection();
+        chooseNation.getSelectionModel().clearSelection();
+        SearchBar.clear();
+        loadContent(null, "", null);
+    }
+
 
     @FXML
     public void addTank() {
@@ -199,7 +269,6 @@ public class MainView {
         }
     }
 
-
     @FXML
     public void addNation() {
         try {
@@ -213,7 +282,6 @@ public class MainView {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     public void addAmmo(){
@@ -229,11 +297,6 @@ public class MainView {
         }
     }
 
-
-//    sie moze przydac
-//    WHERE nation_id = 2;
-//    UPDATE nationality
-//    SET prod_place = 'Berlin'
     @FXML
     void showNations(MouseEvent event) {
         try {
@@ -247,7 +310,6 @@ public class MainView {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     void showUsers(MouseEvent event) {

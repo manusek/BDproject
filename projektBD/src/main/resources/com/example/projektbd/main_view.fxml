@@ -104,7 +104,7 @@
       </AnchorPane>
       <Pane layoutX="285.0" layoutY="14.0" prefHeight="80.0" prefWidth="715.0">
          <children>
-            <TextField fx:id="SearchBar" layoutX="454.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" promptText="szukaj" style="-fx-border-color: #334712;">
+            <TextField fx:id="SearchBar" layoutX="521.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" promptText="szukaj" style="-fx-border-color: #334712;">
                <font>
                   <Font size="18.0" />
                </font>
@@ -112,25 +112,35 @@
                   <Insets left="5.0" />
                </padding>
             </TextField>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="424.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="491.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/search.png" />
                </image>
             </ImageView>
-            <HBox layoutX="48.0" layoutY="14.0" prefHeight="50.0" prefWidth="49.0" style="-fx-border-color: #334712;">
+            <HBox layoutX="14.0" layoutY="-7.0" prefHeight="40.0" prefWidth="40.0" style="-fx-border-color: #334712;">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#refreshContent" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#refreshContent" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/refresh.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
-            <ComboBox fx:id="chooseMuseum" layoutX="110.0" layoutY="25.0" onAction="#filterByMuseum" prefHeight="30.0" prefWidth="210.0" promptText="Wybierz muzeum" style="-fx-border-color: #334712;" />
+            <ComboBox fx:id="chooseMuseum" layoutX="78.0" layoutY="25.0" onAction="#filterByMuseum" prefHeight="30.0" prefWidth="210.0" promptText="Wybierz muzeum" style="-fx-border-color: #334712;" />
+            <ComboBox fx:id="chooseNation" layoutX="298.0" layoutY="25.0" onAction="#filterByNation" prefHeight="30.0" prefWidth="150.0" promptText="Wybierz nacje" style="-fx-border-color: #334712;" />
+            <HBox layoutX="15.0" layoutY="46.0" prefHeight="40.0" prefWidth="40.0" style="-fx-border-color: #334712;">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#resetContent" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/reset.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
 
          </children>
       </Pane>
-      <ScrollPane hbarPolicy="NEVER" layoutX="333.0" layoutY="107.0" prefHeight="460.0" prefWidth="620.0" vbarPolicy="ALWAYS">
+      <ScrollPane hbarPolicy="NEVER" layoutX="323.0" layoutY="107.0" prefHeight="460.0" prefWidth="630.0" vbarPolicy="ALWAYS">
          <content>
             <GridPane fx:id="tanksGrid" prefHeight="10.0" prefWidth="0.0">
               <rowConstraints>
