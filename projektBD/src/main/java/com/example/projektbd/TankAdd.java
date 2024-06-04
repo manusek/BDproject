@@ -124,15 +124,6 @@ public class TankAdd {
         newTankMuseum.setItems(museum);
     }
 
-//    @FXML
-//    public void handleChoiceBoxAction(ActionEvent event) {
-//        // Pobierz wybraną nację z ChoiceBox
-//        String selectedNation = newTankNation.getSelectionModel().getSelectedItem();
-//
-//        // Możesz tutaj dalej przetwarzać wybraną nację, np. wyświetlić ją w etykiecie
-//        System.out.println("Wybrana nacja: " + selectedNation);
-//    }
-
     @FXML
     public void img(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
