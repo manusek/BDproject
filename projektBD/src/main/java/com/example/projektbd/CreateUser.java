@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 public class CreateUser {
 
@@ -24,7 +24,6 @@ public class CreateUser {
 
     @FXML
     private TextField NewRePass;
-
 
     @FXML
     private Label emailError;
@@ -50,9 +49,9 @@ public class CreateUser {
 
         isInputEmpty();
         isPassEquals();
-        isEmailValid();
+        boolean emailValid = isEmailValid();
 
-        if (newPass.equals(newRePass) && !newPass.isEmpty() && !newLogin.isEmpty() && !newEmail.isEmpty() && isEmailValid()){ //
+        if (newPass.equals(newRePass) && !newPass.isEmpty() && !newLogin.isEmpty() && !newEmail.isEmpty() && emailValid && !isLoginExists(newLogin) && !isEmailExists(newEmail)) {
             String sql = "INSERT INTO users (user_login, user_email, user_pass) VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, newLogin);
@@ -70,6 +69,36 @@ public class CreateUser {
             Stage stage = (Stage) NewEmail.getScene().getWindow();
             stage.close();
         }
+    }
+
+    private boolean isLoginExists(String login) throws SQLException {
+        String query = "SELECT COUNT(*) FROM users WHERE user_login = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, login);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        if (resultSet.getInt(1) > 0) {
+            NewLogin.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(NewLogin).play();
+            loginError.setText("Login już istnieje!");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isEmailExists(String email) throws SQLException {
+        String query = "SELECT COUNT(*) FROM users WHERE user_email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        if (resultSet.getInt(1) > 0) {
+            NewEmail.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
+            new animatefx.animation.Shake(NewEmail).play();
+            emailError.setText("Email już istnieje!");
+            return true;
+        }
+        return false;
     }
 
     @FXML
@@ -117,10 +146,10 @@ public class CreateUser {
     }
 
     @FXML
-    private void isPassEquals(){
+    private void isPassEquals() {
         String password = NewPass.getText();
         String rePassword = NewRePass.getText();
-        if(!rePassword.equals(password)){
+        if (!rePassword.equals(password)) {
             NewRePass.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             NewPass.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(NewRePass).play();
@@ -133,37 +162,17 @@ public class CreateUser {
     @FXML
     private boolean isEmailValid() {
         String email = NewEmail.getText();
-        // Prosta walidacja adresu email za pomocą wyrażenia regularnego
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
         if (!email.matches(emailRegex)) {
             NewEmail.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
             new animatefx.animation.Shake(NewEmail).play();
             emailError.setText("Nieprawidłowy format adresu email!");
-            return false; // Zwracamy false, jeśli adres email jest niepoprawny
+            return false;
         } else {
             NewEmail.setStyle(null);
             emailError.setText("");
-            return true; // Zwracamy true, jeśli adres email jest poprawny
+            return true;
         }
     }
-
-//    @FXML
-//    private boolean isEmailValid() {
-//        String email = NewEmail.getText();
-//        // Prosta walidacja adresu email za pomocą wyrażenia regularnego
-//        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
-//
-//        if (!email.matches(emailRegex)) {
-//            NewEmail.setStyle("-fx-border-color: red ; -fx-border-width: 2px ; -fx-border-radius: 3 ;");
-//            new animatefx.animation.Shake(NewEmail).play();
-//            emailError.setText("Nieprawidłowy format adresu email!");
-//        } else {
-//            NewEmail.setStyle(null);
-//            emailError.setText("");
-//        }
-//        return false;
-//    }
-
-
 }

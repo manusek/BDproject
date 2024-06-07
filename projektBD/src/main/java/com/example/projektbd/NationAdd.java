@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -31,10 +32,27 @@ public class NationAdd {
 
         isInputEmpty();
 
-        if (!name.isEmpty() &&  !prodName.isEmpty() && !tankAdd.containsDigits(name) && !tankAdd.containsDigits(prodName)) {
-            saveNation(name, prodName);
+        if (!name.isEmpty() && !prodName.isEmpty() && !tankAdd.containsDigits(name) && !tankAdd.containsDigits(prodName)) {
+            if (!isNationExists(name)) {
+                saveNation(name, prodName);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Błąd", "Nacja o podanej nazwie już istnieje w bazie danych.");
+            }
         }
     }
+
+    private boolean isNationExists(String name) throws SQLException {
+        connection = ConnectDB.getConnection();
+
+        String query = "SELECT COUNT(*) FROM nationality WHERE nation_name = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, name);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        return count > 0;
+    }
+
 
     private void saveNation(String name, String prodName) throws SQLException {
         connection = ConnectDB.getConnection();
@@ -82,5 +100,13 @@ public class NationAdd {
             newProdName.setStyle(null);
             prodNameError.setText("");
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

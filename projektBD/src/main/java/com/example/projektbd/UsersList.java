@@ -140,8 +140,23 @@ public class UsersList {
         listOfUsers user = event.getRowValue();
         String query = "UPDATE users SET " + fieldName + " = ? WHERE user_id = ?";
 
+        // Validate the account type if the field being updated is acc_type
+        if (fieldName.equals("acc_type")) {
+            String newAccType = (String) newValue;
+            if (!newAccType.equals("user") && !newAccType.equals("admin")) {
+                showAlert(Alert.AlertType.ERROR, "Błąd", "Niepoprawny typ konta: " + newAccType + ". Typ konta musi być 'user' albo 'admin'.");
+                return;
+            }
+        }
+
         try (Connection connection = ConnectDB.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            // Check if the new value already exists in the column
+            if (isValueExistsInColumn(fieldName, newValue)) {
+                showAlert(Alert.AlertType.ERROR, "Błąd", "Wartość '" + newValue + "' już istnieje w tabeli.");
+                return;
+            }
 
             stmt.setObject(1, newValue);
             stmt.setInt(2, user.getUserId());
@@ -174,6 +189,18 @@ public class UsersList {
         }
     }
 
+    private boolean isValueExistsInColumn(String columnName, Object value) throws SQLException {
+        String query = "SELECT COUNT(*) FROM users WHERE " + columnName + " = ?";
+        try (Connection connection = ConnectDB.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setObject(1, value);
+            ResultSet resultSet = stmt.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1) > 0;
+        }
+    }
+
+
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -181,4 +208,5 @@ public class UsersList {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 }

@@ -79,7 +79,7 @@ public class TankAdd {
     public void fetchNations() throws SQLException {
         connection = ConnectDB.getConnection();
 
-        String sql = "SELECT nation_id, nation_name FROM nationality";
+        String sql = "SELECT * FROM nationality order by nation_id ASC";
 
         PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -88,14 +88,14 @@ public class TankAdd {
         ObservableList<String> nations = FXCollections.observableArrayList();
 
         while (resultSet.next()) {
-            nations.add(resultSet.getInt("nation_id") + ": " + resultSet.getString("nation_name"));
+            nations.add(resultSet.getInt("nation_id") + ": " + resultSet.getString("nation_name") + ", " + resultSet.getString("prod_place"));
         }
 
         newTankNation.setItems(nations);
 
         // ====================================
 
-        String sql2 = "SELECT ammo_id, name FROM ammunition";
+        String sql2 = "SELECT ammo_id, name FROM ammunition ORDER BY ammo_id ASC";
 
         PreparedStatement statement2 = connection.prepareStatement(sql2);
 
@@ -109,7 +109,7 @@ public class TankAdd {
 
         newTankAmmo.setItems(ammunnition);
 
-        String sql3 = "SELECT museum_id, name FROM museum";
+        String sql3 = "SELECT museum_id, name FROM museum ORDER BY museum_id ASC";
 
         PreparedStatement statement3 = connection.prepareStatement(sql3);
 

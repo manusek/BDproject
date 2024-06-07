@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Objects;
+import java.util.HashSet;
 
 
 public class MainView {
@@ -92,7 +93,7 @@ public class MainView {
 
     public void fetchNations() throws SQLException {
         connection = ConnectDB.getConnection();
-        String query = "SELECT nation_id, nation_name FROM nationality";
+        String query = "SELECT nation_id, nation_name FROM nationality ORDER BY nation_id ASC";
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
 
@@ -105,7 +106,7 @@ public class MainView {
 
     public void fetchMuseums() throws SQLException {
         connection = ConnectDB.getConnection();
-        String sql = "SELECT museum_id, name from museum";
+        String sql = "SELECT museum_id, name from museum ORDER BY museum_id ASC";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
 

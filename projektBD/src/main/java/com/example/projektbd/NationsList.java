@@ -125,6 +125,12 @@ public class NationsList {
         try (Connection connection = ConnectDB.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
+            // Check if the new value already exists in the column
+            if (isValueExistsInColumn(fieldName, newValue)) {
+                showAlert(Alert.AlertType.ERROR, "Błąd", "Wartość '" + newValue + "' już istnieje w tabeli.");
+                return;
+            }
+
             stmt.setObject(1, newValue);
             stmt.setInt(2, nation.getNationId());
 
@@ -148,6 +154,18 @@ public class NationsList {
             showAlert(Alert.AlertType.ERROR, "Błąd", "Wystąpił błąd podczas aktualizacji danych.");
         }
     }
+
+    private boolean isValueExistsInColumn(String columnName, Object value) throws SQLException {
+        String query = "SELECT COUNT(*) FROM nationality WHERE " + columnName + " = ?";
+        try (Connection connection = ConnectDB.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setObject(1, value);
+            ResultSet resultSet = stmt.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1) > 0;
+        }
+    }
+
 
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
